@@ -1,14 +1,53 @@
 @import "tailwindcss";
 
+/* Plus Jakarta Sans – design-ref (Figma) */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/font/PlusJakartaSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/font/PlusJakartaSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/font/PlusJakartaSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/font/PlusJakartaSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  /* Figma design tokens – Memoli Final */
+  --memoli-section-bg: #f2f7ff;
+  --memoli-primary: #2563eb;
+  --memoli-download-start: #4089f1;
+  --memoli-download-end: #245edf;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-jakarta);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -19,8 +58,116 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
+
+html {
+  scroll-behavior: smooth;
+  background: white;
+  overflow-x: hidden;
+}
+
+body {
+  background: white;
+  color: var(--foreground);
+  font-family: var(--font-jakarta);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Download button – design-ref: vertical gradient #4089F1 → #245EDF, 12px radius */
+.memoli-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(180deg, #4089f1 0%, #245edf 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+  letter-spacing: 0;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(36, 94, 223, 0.3);
+  white-space: nowrap;
+  min-height: 44px;
+  text-decoration: none;
+  font-family: var(--font-jakarta), system-ui, sans-serif;
+}
+.memoli-download-btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 20px rgba(36, 94, 223, 0.4);
+}
+.memoli-download-btn:active {
+  filter: brightness(0.96);
+  box-shadow: 0 2px 8px rgba(36, 94, 223, 0.35);
+}
+.memoli-download-btn:focus {
+  outline: 2px solid #4089f1;
+  outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .memoli-download-btn {
+    padding: 14px 28px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+@media (min-width: 1024px) {
+  .memoli-download-btn {
+    padding: 14px 32px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+.memoli-download-btn .memoli-download-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+/* Header – Figma design (Website Feb '26): #FFFDFD bg, blue-tinted border & shadow */
+.memoli-header-glass {
+  background: #fffdfd;
+  border: 1.5px solid rgba(134, 186, 255, 0.25);
+  box-shadow: 0 4px 13px 0 rgba(134, 186, 255, 0.3);
+}
+
+/* Horizontal marquee – used by Collaborators and Team on mobile */
+@keyframes marquee-pan {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.collaborators-marquee {
+  animation: marquee-pan 25s linear infinite;
+}
+.team-marquee {
+  animation: marquee-pan 40s linear infinite;
+}
+@media (min-width: 1024px) {
+  .collaborators-marquee,
+  .team-marquee {
+    animation: none;
+  }
+}
+
