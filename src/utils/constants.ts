@@ -35,9 +35,9 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     id: "3",
-    name: "Muh. Fauzan",
+    name: "Rizqi Fauzan",
     role: "Programmer",
-    profession: "FE Developer",
+    profession: "Backend Developer",
     image: "/image/about/profile_fauzan.png",
     bio: "Memoli is engineered for reliable and seamless family life.",
     professionPill: "Programmer",

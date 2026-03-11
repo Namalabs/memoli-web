@@ -7,7 +7,7 @@ import { useBetaSignup } from "@memoli/contexts/BetaSignupContext";
 export default function CollaboratorsSection() {
   const { open: openBetaSignup } = useBetaSignup();
   const collaborators = [
-    { name: "Apple Developer Academy", label: "Apple Developer Academy", logo: "/image/logo/ADA.png" },
+    // { name: "Apple Developer Academy", label: "Apple Developer Academy", logo: "/image/logo/ADA.png" },
     // { name: "IA", label: "IA", logo: "/image/logo/IA.png" },
     { name: "Lunexia", label: "Lunexia", logo: "/image/logo/lunexia.png" },
     // { name: "WE WAW", label: "WE WAW", logo: "/image/logo/wewaw.png" },

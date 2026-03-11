@@ -35,7 +35,7 @@ export default function ScienceSection() {
             {/* detail.png is 616×870 — use aspect ratio so image is never cropped */}
             <div className="relative w-full max-w-[260px] md:max-w-[280px] lg:max-w-[320px] aspect-[616/870]">
               <Image
-                src="/animations/detail.png"
+                src="/animations/image.png"
                 alt="Memoli ingredient safety screen"
                 fill
                 className="object-contain"
