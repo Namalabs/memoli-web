@@ -1,0 +1,43 @@
+# Deploy Next.js static export to Cloudflare Pages
+# Runs when you push a tag matching memoli-v* (e.g. memoli-v1.0)
+
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    tags:
+      - "memoli-v*"
+  workflow_dispatch: # Allow manual run from Actions tab
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}

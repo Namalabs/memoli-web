@@ -31,7 +31,6 @@ External/
 /.idea
 /.vscode
 /.cursor
-/.github
 
 # debug
 npm-debug.log*
