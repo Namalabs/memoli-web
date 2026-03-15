@@ -47,7 +47,7 @@ export default function TeamSection() {
   return (
     <section className="bg-memoli-light">
       <div className="max-w-[1280px] mx-auto px-6 py-12 md:px-10 md:py-16 lg:px-16 lg:py-20">
-        <h2 ref={headingRef} className="text-memoli-accent font-bold text-[24px] md:text-[48px] lg:text-[48px] text-center mb-10 md:mb-12 lg:mb-16">
+        <h2 ref={headingRef} className="text-memoli-accent font-bold text-[24px] md:text-[38px] lg:text-[40px] text-center mb-10 md:mb-12 lg:mb-16">
           The People Behind Memoli
         </h2>
 

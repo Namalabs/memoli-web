@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="bg-memoli-section-bg text-memoli-dark overflow-hidden rounded-t-[64px] md:rounded-t-[88px]"
+      className="bg-memoli-section-bg text-memoli-dark overflow-hidden rounded-t-[36px] md:rounded-t-[88px]"
       role="contentinfo"
     >
       <div className="max-w-[1280px] mx-auto px-6 py-12 md:px-10 md:py-16 lg:px-16 lg:py-20">
@@ -23,7 +23,7 @@ export default function Footer() {
         <div className="mb-6 md:hidden">
           <Link href="/" className="inline-block" aria-label="Memoli home">
             <Image
-              src="/image/brand/memoli_full.png"
+              src="/image/brand/memoli_full.webp"
               alt="Memoli by NamaLabs"
               width={316}
               height={38}
@@ -38,7 +38,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="hidden md:inline-block mb-4" aria-label="Memoli home">
               <Image
-                src="/image/brand/memoli_full.png"
+                src="/image/brand/memoli_full.webp"
                 alt="Memoli"
                 width={316}
                 height={38}
@@ -93,16 +93,16 @@ export default function Footer() {
                 <Link
                   key={social.label}
                   href={social.href}
-                  className="w-9 h-9 rounded-2xl flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-memoli-light"
+                  className="w-9 h-9 rounded-2xl flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-[#4C7BEF] focus:ring-offset-2 focus:ring-offset-memoli-light"
                   aria-label={social.label}
                   title={social.label}
                 >
-                  <Image
-                    src={social.icon}
-                    alt={social.label}
-                    width={20}
-                    height={20}
-                    className="w-5 h-5 object-contain brightness-0"
+                  <span
+                    className="w-5 h-5 flex-shrink-0 bg-[#4C7BEF] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:center]"
+                    style={{
+                      maskImage: `url(${social.icon})`,
+                      WebkitMaskImage: `url(${social.icon})`,
+                    }}
                   />
                 </Link>
               ))}

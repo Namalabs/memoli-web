@@ -71,7 +71,7 @@ function MenuOverlay({
                     : "text-memoli-dark hover:bg-gray-50 active:bg-gray-100"
                 }`}
               >
-                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0 rounded-lg bg-gray-100">
+                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                   <img
                     src={link.href === "/" ? "/image/icons/home.svg" : "/image/icons/about.svg"}
                     alt=""

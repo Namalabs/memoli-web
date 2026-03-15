@@ -160,7 +160,7 @@ export default function FeaturesSection() {
         {/* Section heading – audit: 48/40/24px #3C7CF7 Bold */}
         <h2
           ref={headingRef}
-          className="text-[#3C7CF7] font-bold mb-10 md:mb-12 lg:mb-16 text-2xl md:text-[40px] lg:text-[48px]"
+          className="text-[#3C7CF7] text-center font-bold mb-10 md:mb-12 lg:mb-16 text-2xl md:text-[34px] lg:text-[40px]"
         >
           Mindful Assistant for Modern Living
         </h2>
@@ -176,10 +176,10 @@ export default function FeaturesSection() {
               }`}
             >
               <div className="md:flex-1">
-                <h3 className="text-[#3C7CF7] font-bold text-xl md:text-[32px] lg:text-[40px] mb-2 md:mb-3 lg:mb-4">
+                <h3 className="text-[#3C7CF7] font-bold text-xl md:text-[26px] lg:text-[32px] mb-2 md:mb-3 lg:mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-[#152B56] font-medium leading-relaxed text-base md:text-2xl lg:text-[28px]">
+                <p className="text-[#152B56] font-medium leading-relaxed text-base md:text-xl lg:text-[22px]">
                   {feature.description}
                 </p>
               </div>

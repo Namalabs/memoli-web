@@ -10,8 +10,8 @@ export default function DownloadCTA() {
   return (
     <section className="bg-memoli-light">
       <div ref={sectionRef} className="max-w-[1280px] mx-auto px-6 py-12 md:px-10 md:py-16 lg:px-16 lg:py-20 text-center">
-        <p className="text-memoli-dark text-sm md:text-sm lg:text-base leading-relaxed max-w-[600px] mx-auto mb-8 md:mb-8 lg:mb-10">
-          Memoli tracks shelf-life and verifies ingredients, serving as a
+        <p className="text-memoli-dark text-sm md:text-base lg:text-lg leading-relaxed max-w-[600px] mx-auto mb-8 md:mb-8 lg:mb-10">
+          Memoli tracks shelf-life serving as a
           mindful companion for your family&apos;s daily essentials. Download
           now and start your journey toward a healthier, waste-free home.
         </p>

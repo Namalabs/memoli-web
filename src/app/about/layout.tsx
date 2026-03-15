@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const SITE_URL = "https://memoli.app";
-const OG_IMAGE = "https://memoli.app/image/brand/memoli_full.png";
+const OG_IMAGE = "https://memoli.app/image/brand/memoli_full.webp";
 
 export const metadata: Metadata = {
   title: "About",

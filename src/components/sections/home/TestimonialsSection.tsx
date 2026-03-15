@@ -13,14 +13,14 @@ const DURATION = 0.4;
 const EASE = "power2.out";
 
 export default function TestimonialsSection() {
-  const headingRef = useFadeIn({ y: 25, duration: 0.7 });
-  const cardsRef = useStaggerChildren({ y: 30, duration: 0.6, stagger: 0.15 });
-  const ctaRef = useFadeIn({ y: 20, duration: 0.6 });
+  const [isDesktop, setIsDesktop] = useState(false);
+  const headingRef = useFadeIn({ y: 20, duration: 1, ease: "power3.out", enabled: isDesktop });
+  const cardsRef = useStaggerChildren({ y: 30, duration: 0.6, stagger: 0.15, enabled: isDesktop });
+  const ctaRef = useFadeIn({ y: 20, duration: 0.6, enabled: isDesktop });
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const quoteRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const hasAnimated = useRef(false);
   const [activeIndex, setActiveIndex] = useState(1);
-  const [isDesktop, setIsDesktop] = useState(false);
   const { open: openBetaSignup } = useBetaSignup();
 
   useEffect(() => {
@@ -39,7 +39,8 @@ export default function TestimonialsSection() {
       const isActive = i === activeIndex;
       const isMiddle = i === 1;
       const isExpandedDesktop = isDesktop && isActive;
-      const quoteVisible = isDesktop ? isExpandedDesktop : isActive || isMiddle;
+      // Mobile: no animation, show all cards and all quotes
+      const quoteVisible = isDesktop ? isExpandedDesktop : true;
       const state = isDesktop
         ? {
             scale: 1,
@@ -49,11 +50,9 @@ export default function TestimonialsSection() {
               : "0 4px 20px rgba(21,43,86,0.06)",
           }
         : {
-            scale: isActive ? 1 : 0.92,
-            opacity: isActive ? 1 : 0.78,
-            boxShadow: isActive
-              ? "0 10px 40px -10px rgba(0,0,0,0.12), 0 0 0 1px rgba(59, 130, 246, 0.15)"
-              : "0 4px 6px -1px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)",
+            scale: 1,
+            opacity: 1,
+            boxShadow: "0 4px 6px -1px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)",
           };
       const quoteState = { opacity: quoteVisible ? 1 : 0, y: quoteVisible ? 0 : 24 };
       if (card) {
@@ -73,10 +72,10 @@ export default function TestimonialsSection() {
       <div className="max-w-[1280px] mx-auto px-[40px] py-[88px] md:px-[88px] md:py-[88px] lg:px-16 lg:py-[104px]">
         {/* Headings – Figma: heading dark blue bold center; subtitle smaller lighter gray center */}
         <div ref={headingRef}>
-          <h2 className="text-memoli-accent font-bold text-2xl md:text-[40px] lg:text-[48px] text-center mb-2 md:mb-3">
+          <h2 className="text-memoli-accent font-bold text-2xl md:text-[34px] lg:text-[40px] text-center mb-2 md:mb-3">
             Voices from Our Community
           </h2>
-          <p className="text-gray-500 font-medium text-sm md:text-lg lg:text-xl text-center mb-8 md:mb-12 lg:mb-16">
+          <p className="text-gray-500 font-medium text-sm md:text-base lg:text-lg text-center mb-8 md:mb-12 lg:mb-16">
             What Our Beta Testers Are Saying
           </p>
         </div>
@@ -88,10 +87,9 @@ export default function TestimonialsSection() {
         >
           {TESTIMONIALS.map((testimonial, index) => {
             const isActive = index === activeIndex;
-            const isMiddle = index === 1;
-            /* Only the hovered/active card is expanded; middle shrinks when a side card is hovered for smooth animation */
-            const isExpanded = isActive;
-            const showQuote = isDesktop ? isExpanded : isActive || isMiddle;
+            /* Desktop: only active card expanded; mobile: all cards same, all quotes visible */
+            const isExpanded = isDesktop ? isActive : true;
+            const showQuote = isDesktop ? isExpanded : true;
 
             return (
               <div
@@ -102,10 +100,10 @@ export default function TestimonialsSection() {
                 className={`flex flex-col items-center w-full rounded-3xl border border-transparent cursor-default bg-memoli-section-bg overflow-visible pt-12 p-6 transition-all duration-300 ease-out ${
                   isExpanded
                     ? "md:pb-8 md:px-6 lg:px-8 md:flex-[1.35] lg:flex-[1.4] shadow-lg md:shadow-[0_8px_30px_rgba(21,43,86,0.08)]"
-                    : `md:pb-6 md:px-4 lg:px-5 md:flex-1 ${isDesktop ? "md:shadow-[0_4px_20px_rgba(21,43,86,0.06)]" : isActive ? "shadow-md scale-100" : "shadow-sm scale-[0.98]"}`
+                    : `md:pb-6 md:px-4 lg:px-5 md:flex-1 ${isDesktop ? "md:shadow-[0_4px_20px_rgba(21,43,86,0.06)]" : "shadow-sm"}`
                 }`}
                 style={{ transformOrigin: "center center" }}
-                onMouseEnter={() => setActiveIndex(index)}
+                onMouseEnter={() => isDesktop && setActiveIndex(index)}
                 onMouseLeave={() => isDesktop && setActiveIndex(1)}
               >
                 {/* Photo – overlaps top of card (Figma) */}
@@ -120,7 +118,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* Name – 18px Bold #152B56 */}
-                <p className="text-lg font-bold text-memoli-dark text-center mt-3">
+                <p className="text-base font-bold text-memoli-dark text-center mt-3">
                   {testimonial.name}
                 </p>
                 {/* Role – smaller lighter gray */}
@@ -134,7 +132,7 @@ export default function TestimonialsSection() {
                     ref={(el) => {
                       quoteRefs.current[index] = el;
                     }}
-                    className="text-lg font-medium text-memoli-dark text-center leading-relaxed max-w-[340px] not-italic"
+                    className="text-base font-medium text-memoli-dark text-center leading-relaxed max-w-[340px] not-italic"
                   >
                     {showQuote ? (
                       <>
@@ -156,7 +154,7 @@ export default function TestimonialsSection() {
           >
             Download Now
           </Button>
-          <Button href={undefined} variant="outline" size="lg" onClick={openBetaSignup}>
+          <Button href={''} variant="outline" size="lg" onClick={openBetaSignup}>
             &nbsp;Join As Beta Tester&nbsp;
           </Button>
         </div>

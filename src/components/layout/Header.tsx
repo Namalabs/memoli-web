@@ -24,7 +24,7 @@ export default function Header() {
           aria-label="Memoli home"
         >
           <Image
-            src="/image/brand/memoli.png"
+            src="/image/brand/memoli.webp"
             alt="Memoli"
             width={117}
             height={40}
@@ -48,7 +48,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-lg lg:text-xl whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-memoli-accent focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded px-6 py-2 min-h-[44px] flex items-center transition-colors duration-200 ${
+                className={`text-base lg:text-lg whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-memoli-accent focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded px-6 py-2 min-h-[44px] flex items-center transition-colors duration-200 ${
                   isActive
                     ? "text-memoli-accent font-bold underline decoration-2 decoration-memoli-accent underline-offset-4"
                     : "text-memoli-dark font-medium hover:text-memoli-accent"

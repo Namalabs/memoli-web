@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const siteUrl = "https://memoli.app";
-  const ogImage = "https://memoli.app/image/brand/memoli_full.png";
+  const ogImage = "https://memoli.app/image/brand/memoli_full.webp";
 
   return (
     <html lang="en">

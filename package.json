@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "lottie:optimize": "node scripts/optimize-lottie-images.mjs --in-place"
+    "lottie:optimize": "node scripts/optimize-lottie-images.mjs --in-place",
+    "images:webp": "node scripts/convert-images-to-webp.mjs",
+    "images:webp:replace": "node scripts/convert-images-to-webp.mjs --replace"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.18.3",
@@ -26,6 +28,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "sharp": "^0.33.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

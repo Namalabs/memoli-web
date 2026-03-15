@@ -15,10 +15,10 @@ export default function CollaboratorsSection() {
     <section className="group bg-memoli-section-bg" aria-labelledby="collaborators-heading">
       <div className="max-w-[1280px] mx-auto px-[40px] py-[88px] md:px-[88px] md:py-[88px] lg:px-16 lg:py-[104px]">
         <header ref={headerRef} className="mb-8 md:mb-10">
-          <h2 id="collaborators-heading" className="text-memoli-accent font-bold text-2xl md:text-[40px] lg:text-[48px] mb-3">
+          <h2 id="collaborators-heading" className="text-memoli-accent font-bold text-2xl md:text-[34px] lg:text-[40px] mb-3">
             Our Partners
           </h2>
-          <p className="text-memoli-dark font-medium leading-relaxed max-w-[640px] text-base md:text-2xl lg:text-[28px]">
+          <p className="text-memoli-dark font-medium leading-relaxed max-w-[640px] text-base md:text-xl lg:text-[22px]">
             We are proud to collaborate with entity of innovation that share our
             vision for a safer, waste-free lifestyle.
           </p>

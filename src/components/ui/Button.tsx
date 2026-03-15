@@ -34,7 +34,7 @@ export default function Button({
 
   // Default button styling
   const baseClasses =
-    "inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200 hover:border-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "inline-flex items-center justify-center cursor-pointer rounded-full font-semibold transition-all duration-200 hover:border-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variantClasses = {
     primary:
@@ -44,14 +44,15 @@ export default function Button({
   };
 
   const sizeClasses = {
-    sm: "px-3 py-1 text-xs gap-1",
-    md: "px-4 py-1.5 md:px-5 md:py-2 text-sm md:text-base gap-1.5",
+    sm: "px-3 py-2.5 text-xs gap-1",
+    md: "px-4 py-2.5 md:px-5 md:py-2 text-sm md:text-base gap-1.5",
     lg: "px-6 py-2 lg:px-8 lg:py-3 text-base lg:text-lg gap-2",
   };
 
   const buttonClass = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
-  if (href) {
+  // Treat empty href as action-only (e.g. "Join Beta" modal) — render button, not link
+  if (href && href.trim() !== "") {
     return (
       <a href={href} className={buttonClass}>
         {icon}

@@ -14,16 +14,16 @@ export default function ScienceSection() {
         <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-8 lg:gap-12">
           {/* Text */}
           <div ref={textRef} className="flex-1">
-            <h2 className="text-memoli-accent font-bold leading-tight text-[24px] md:text-[40px] lg:text-[48px]">
+            <h2 className="text-memoli-accent font-bold leading-tight text-[24px] md:text-[34px] lg:text-[40px]">
               The Science Behind The Scores
             </h2>
 
-            <p className="mt-4 md:mt-4 lg:mt-6 text-memoli-dark font-medium leading-relaxed text-base md:text-2xl lg:text-[28px]">
+            <p className="mt-4 md:mt-4 lg:mt-6 text-memoli-dark font-medium leading-relaxed text-base md:text-xl lg:text-[22px]">
               Our methodology transforms complex chemical data into a wisdom-driven
               safety net for your home.
             </p>
 
-            <p className="mt-3 md:mt-3 lg:mt-4 text-memoli-dark font-medium leading-relaxed text-base md:text-2xl lg:text-[28px]">
+            <p className="mt-3 md:mt-3 lg:mt-4 text-memoli-dark font-medium leading-relaxed text-base md:text-xl lg:text-[22px]">
               By merging scientific rigor with parental intuition, we cross-reference
               every score against BPOM and international standards to unmask hidden
               allergens and sensitive ingredients.
@@ -32,10 +32,10 @@ export default function ScienceSection() {
 
           {/* Phone mockup - below text on mobile, right on desktop */}
           <div ref={phoneRef} className="flex items-center justify-center md:flex-shrink-0 md:w-[40%] lg:w-[45%]">
-            {/* detail.png is 616×870 — use aspect ratio so image is never cropped */}
+            {/* detail.webp is 616×870 — use aspect ratio so image is never cropped */}
             <div className="relative w-full max-w-[260px] md:max-w-[280px] lg:max-w-[320px] aspect-[616/870]">
               <Image
-                src="/animations/image.png"
+                src="/animations/image.webp"
                 alt="Memoli ingredient safety screen"
                 fill
                 className="object-contain"

@@ -80,10 +80,10 @@ export default function HeroSection() {
         <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 lg:gap-12">
           {/* Phone mockup – audit: increase size (was too small); prefer .webp for load time */}
           <div ref={phoneRef} className="flex justify-center items-center md:order-2 md:flex-1 min-w-0">
-            {/* Audit: larger size; convert scanner.png to .webp for better load time */}
+            {/* Audit: larger size; use scanner.webp for better load time */}
             <div className="relative w-[320px] md:w-[400px] lg:w-[480px] aspect-[712/688] shrink-0">
               <Image
-                src="/animations/scanner.png"
+                src="/animations/scanner.webp"
                 alt="Memoli app scanner"
                 fill
                 className="object-contain"
@@ -98,7 +98,7 @@ export default function HeroSection() {
             <h1>
               <span
                 ref={frameRef}
-                className="block overflow-hidden text-2xl md:text-[56px]"
+                className="block overflow-hidden text-2xl md:text-[44px] lg:text-[48px]"
                 style={{ minHeight: "1.2em" }}
                 aria-live="polite"
                 aria-label={ROTATING_PHRASES[phraseIndex]}
@@ -108,20 +108,20 @@ export default function HeroSection() {
                     <span
                       key={i === ROTATING_PHRASES.length ? `${phrase}-end` : phrase}
                       data-v-slide
-                      className="block text-memoli-accent font-bold text-2xl md:text-[56px] leading-tight whitespace-nowrap h-[1.3em] flex items-center shrink-0"
+                      className="block text-memoli-accent font-bold text-2xl md:text-[44px] lg:text-[48px] leading-tight whitespace-nowrap h-[1.3em] flex items-center shrink-0"
                     >
                       {phrase}
                     </span>
                   ))}
                 </span>
               </span>
-              <span className="block text-memoli-dark font-bold text-2xl md:text-[56px] leading-tight break-words">
+              <span className="block text-memoli-dark font-bold text-2xl md:text-[44px] lg:text-[48px] leading-tight break-words">
                 For Sustainability
               </span>
             </h1>
 
             {/* Audit: Body – Mobile 16px, Tablet 24px, Desktop 28px; Medium; #152B56 */}
-            <p className="mt-4 md:mt-4 lg:mt-6 text-memoli-dark font-medium text-base md:text-2xl lg:text-[28px] leading-relaxed max-w-[500px] break-words">
+            <p className="mt-4 md:mt-4 lg:mt-6 text-memoli-dark font-medium text-base md:text-xl lg:text-[22px] leading-relaxed max-w-[500px] break-words">
               Memoli tracks <span className="whitespace-nowrap">shelf-life</span> and verifies ingredients, serving as a
               mindful companion for your family&apos;s daily essentials.
             </p>
@@ -130,7 +130,7 @@ export default function HeroSection() {
               <Button href={APP_STORE_URL} useDownloadButton={true}>
                 Download Now
               </Button>
-              <Button href={undefined} variant="outline" size="md" onClick={openBetaSignup}>
+              <Button href={''} variant="outline" size="md" onClick={openBetaSignup}>
                 &nbsp;Join As Beta Tester&nbsp;
               </Button>
             </div>

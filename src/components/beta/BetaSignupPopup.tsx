@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Turnstile } from "next-turnstile";
-
-const FOCUSABLE_SELECTOR =
-  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
@@ -101,47 +98,11 @@ export default function BetaSignupPopup({
     }
   };
 
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  // Focus trap and initial focus (client-only; safe for static export)
-  useEffect(() => {
-    if (!isOpen || !dialogRef.current) return;
-    const dialog = dialogRef.current;
-    const focusables = dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-    first?.focus();
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          e.preventDefault();
-          last?.focus();
-        }
-      } else {
-        if (document.activeElement === last) {
-          e.preventDefault();
-          first?.focus();
-        }
-      }
-    };
-    dialog.addEventListener("keydown", handleKey);
-    return () => dialog.removeEventListener("keydown", handleKey);
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const turnstileConfigured = Boolean(siteKey);
   const canSubmit = turnstileConfigured && turnstileToken;
-
-  const handleBackdropKey = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleClose();
-    }
-  };
 
   const inputClass =
     "w-full px-4 py-3 md:py-4 md:px-5 md:text-base rounded-xl border border-gray-300 focus:ring-2 focus:ring-memoli-primary focus:border-memoli-primary outline-none transition-colors text-memoli-dark placeholder:text-gray-400 bg-memoli-light";
@@ -154,13 +115,12 @@ export default function BetaSignupPopup({
       <div
         className="absolute inset-0 cursor-pointer"
         onClick={handleClose}
-        onKeyDown={handleBackdropKey}
+        onKeyDown={(e) => e.key === "Escape" && handleClose()}
         role="button"
         tabIndex={0}
         aria-label="Close modal"
       />
       <div
-        ref={dialogRef}
         className="relative bg-memoli-light rounded-2xl shadow-xl w-full max-w-md md:max-w-xl lg:max-w-2xl max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
@@ -174,7 +134,7 @@ export default function BetaSignupPopup({
             <button
               type="button"
               onClick={handleClose}
-              className="p-2 rounded-2xl text-memoli-dark/70 hover:text-memoli-dark hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-memoli-primary cursor-pointer"
+              className="w-12 p-2 rounded-2xl text-memoli-dark/70 hover:text-memoli-dark hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-memoli-primary cursor-pointer"
               aria-label="Close"
             >
               <span className="text-xl leading-none">&times;</span>
@@ -244,25 +204,25 @@ export default function BetaSignupPopup({
                 />
               </div>
 
-              {/* Cloudflare Turnstile – use an Invisible widget in the dashboard for this site key */}
-              <div className="min-h-[65px] md:min-h-[78px] flex items-center justify-center shrink-0">
-                {turnstileConfigured ? (
-                  <Turnstile
-                    key={turnstileKey}
-                    siteKey={siteKey!}
-                    onVerify={setTurnstileToken}
-                    onExpire={() => setTurnstileToken(null)}
-                    onError={() => setTurnstileToken(null)}
-                    theme="light"
-                    size="normal"
-                  />
-                ) : (
+              {/* Cloudflare Turnstile – invisible widget: no visible block when configured */}
+              {turnstileConfigured ? (
+                <Turnstile
+                  key={turnstileKey}
+                  siteKey={siteKey!}
+                  onVerify={setTurnstileToken}
+                  onExpire={() => setTurnstileToken(null)}
+                  onError={() => setTurnstileToken(null)}
+                  theme="light"
+                  size="normal"
+                />
+              ) : (
+                <div className="min-h-[65px] md:min-h-[78px] flex items-center justify-center shrink-0">
                   <div className="text-center py-3 px-4 md:py-4 md:px-5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm md:text-base">
                     <p className="font-medium">Preview mode</p>
                     <p className="mt-0.5 text-amber-700">Set NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable submit.</p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               {errorMessage && (
                 <p className="text-sm md:text-base text-red-600" role="alert">
