@@ -4,34 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useFadeIn } from "@memoli/hooks/useGSAP";
+import { FEATURES } from "@memoli/utils/constants";
 import dynamic from "next/dynamic";
 
-/** Supports both .json and .lottie (smaller, compressed). Optimise with: npm run lottie:optimize */
 const DotLottieReact = dynamic(
   () => import("@lottiefiles/dotlottie-react").then((m) => m.DotLottieReact),
   { ssr: false }
 );
 
-gsap.registerPlugin(ScrollTrigger);
-
-/** All Lottie files use 5120×2880 (16:9) – match container to avoid cropping */
 const LOTTIE_ASPECT = 16 / 9;
-
-/** Use .lottie (ZIP-compressed) for smaller transfer. Generate with: npm run lottie:optimize */
-const ANIMATION_PATHS = [
-  "/animations/scan.lottie",
-  "/animations/expiry.lottie",
-  "/animations/ingredients.lottie",
-  "/animations/fam.lottie",
-];
-
-/** Fallback images when Lottie is missing (e.g. deploy without large assets to stay under 10MB). */
-const FALLBACK_IMAGES = [
-  "/animations/scanner.png",
-  "/animations/notification.png",
-  "/animations/detail.png",
-  "/animations/scanner.png",
-];
+const ANIM_BOX_CLASS =
+  "relative w-full max-w-[320px] md:max-w-[280px] lg:max-w-[400px] aspect-[16/9] min-h-[160px] flex items-center justify-center rounded-2xl overflow-hidden bg-gray-50/50 min-w-0";
 
 function FallbackImage({ src }: { src: string }) {
   const [failed, setFailed] = useState(false);
@@ -62,7 +45,17 @@ function FeatureAnimation({
 }) {
   const [shouldPlay, setShouldPlay] = useState(false);
   const [useFallback, setUseFallback] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // On mobile, prefer fallback image to avoid heavy Lottie load (audit: "Load time lama banget pas di hp" → use lighter asset)
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = () => setIsMobile(mq.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   // Lazy load: only load animation when in view (reduces initial payload)
   useEffect(() => {
@@ -81,46 +74,30 @@ function FeatureAnimation({
     return () => observer.disconnect();
   }, []);
 
-  // If Lottie URL returns 404 (e.g. excluded from deploy for size), show fallback image
+  // If Lottie URL returns 404 (e.g. excluded from deploy for size), show fallback image. Skip fetch on mobile (use static image).
   useEffect(() => {
-    if (!shouldPlay) return;
+    if (!shouldPlay || isMobile) return;
     fetch(animationPath, { method: "HEAD" })
       .then((res) => {
         if (!res.ok) setUseFallback(true);
       })
       .catch(() => setUseFallback(true));
-  }, [shouldPlay, animationPath]);
-
-  const placeholder = (
-    <div
-      ref={containerRef}
-      className="w-full max-w-[320px] md:max-w-[280px] lg:max-w-[400px] aspect-[16/9] min-h-[160px] min-w-0 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl"
-      style={{ aspectRatio: LOTTIE_ASPECT }}
-    />
-  );
+  }, [shouldPlay, animationPath, isMobile]);
 
   if (!shouldPlay) {
-    return placeholder;
-  }
-
-  if (useFallback) {
     return (
       <div
         ref={containerRef}
-        className="relative w-full max-w-[320px] md:max-w-[280px] lg:max-w-[400px] aspect-[16/9] min-h-[160px] flex items-center justify-center rounded-2xl overflow-hidden bg-gray-50/50 min-w-0"
+        className={`w-full max-w-[320px] md:max-w-[280px] lg:max-w-[400px] aspect-[16/9] min-h-[160px] min-w-0 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl`}
         style={{ aspectRatio: LOTTIE_ASPECT }}
-      >
-        <FallbackImage src={fallbackImage} />
-      </div>
+      />
     );
   }
 
-  return (
-    <div
-      ref={containerRef}
-      className="relative w-full max-w-[320px] md:max-w-[280px] lg:max-w-[400px] aspect-[16/9] min-h-[160px] flex items-center justify-center rounded-2xl overflow-hidden bg-gray-50/50 min-w-0"
-      style={{ aspectRatio: LOTTIE_ASPECT }}
-    >
+  const content =
+    isMobile || useFallback ? (
+      <FallbackImage src={fallbackImage} />
+    ) : (
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl">
         <DotLottieReact
           src={animationPath}
@@ -131,6 +108,11 @@ function FeatureAnimation({
           renderConfig={{ autoResize: true }}
         />
       </div>
+    );
+
+  return (
+    <div ref={containerRef} className={ANIM_BOX_CLASS} style={{ aspectRatio: LOTTIE_ASPECT }}>
+      {content}
     </div>
   );
 }
@@ -138,33 +120,6 @@ function FeatureAnimation({
 export default function FeaturesSection() {
   const headingRef = useFadeIn({ y: 25, duration: 0.7 });
   const blocksRef = useRef<HTMLDivElement>(null);
-
-  const features = [
-    {
-      title: "Smart Scan, Zero Effort",
-      description:
-        "Skip manual typing; use on-device vision to digitize your household inventory instantly by taking a single, quick product label scan.",
-      reversed: false,
-    },
-    {
-      title: "Proactive Expiry Tracker",
-      description:
-        "Prevent forgotten, expired products with automated alerts sent before \"use-by\" dates to keep families healthy while saving budgets and the planet.",
-      reversed: true,
-    },
-    {
-      title: "Ingredient Safety Guard",
-      description:
-        "Gain instant label insights as our checker verifies ingredients against safety standards, helping you choose \"healthier\" household items with confidence.",
-      reversed: false,
-    },
-    {
-      title: "Family Synchronization",
-      description:
-        "Stay perfectly aligned with a shared shelf-view that syncs inventory with your family member so everyone knows what is in-stock.",
-      reversed: true,
-    },
-  ];
 
   useEffect(() => {
     const container = blocksRef.current;
@@ -200,39 +155,38 @@ export default function FeaturesSection() {
   }, []);
 
   return (
-    <section className="bg-white">
-      <div className="max-w-[1280px] mx-auto px-6 py-12 md:px-10 md:py-16 lg:px-16 lg:py-20">
-        {/* Section heading - centered per Figma */}
-        <h2 ref={headingRef} className="text-gray-900 font-bold text-xl md:text-[26px] lg:text-[32px] mb-10 md:mb-12 lg:mb-16 text-center">
+    <section className="bg-memoli-light">
+      <div className="max-w-[1280px] mx-auto py-[88px] px-10 md:py-[88px] md:px-[88px] lg:py-[104px] lg:px-16">
+        {/* Section heading – audit: 48/40/24px #3C7CF7 Bold */}
+        <h2
+          ref={headingRef}
+          className="text-[#3C7CF7] font-bold mb-10 md:mb-12 lg:mb-16 text-2xl md:text-[40px] lg:text-[48px]"
+        >
           Mindful Assistant for Modern Living
         </h2>
 
-        {/* Feature blocks */}
         <div ref={blocksRef} className="space-y-14 md:space-y-16 lg:space-y-24">
-          {features.map((feature, index) => (
+          {FEATURES.map((feature, index) => (
             <div
-              key={index}
+              key={feature.id}
               data-feature
               data-direction={feature.reversed ? "right" : "left"}
               className={`flex flex-col md:flex-row md:items-center gap-6 md:gap-10 lg:gap-16 ${
                 feature.reversed ? "md:flex-row-reverse" : ""
               }`}
             >
-              {/* Text column */}
               <div className="md:flex-1">
-                <h3 className="text-blue-600 font-bold text-base md:text-lg lg:text-[22px] mb-2 md:mb-3 lg:mb-4">
+                <h3 className="text-[#3C7CF7] font-bold text-xl md:text-[32px] lg:text-[40px] mb-2 md:mb-3 lg:mb-4">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed text-sm md:text-[13px] lg:text-[15px]">
+                <p className="text-[#152B56] font-medium leading-relaxed text-base md:text-2xl lg:text-[28px]">
                   {feature.description}
                 </p>
               </div>
-
-              {/* Lottie animation column (fallback image if .lottie missing for smaller deploy) */}
               <div className="md:flex-1 flex justify-center min-w-0">
                 <FeatureAnimation
-                  animationPath={ANIMATION_PATHS[index]}
-                  fallbackImage={FALLBACK_IMAGES[index]}
+                  animationPath={feature.animation}
+                  fallbackImage={feature.image}
                 />
               </div>
             </div>

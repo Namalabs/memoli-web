@@ -62,7 +62,7 @@ export default function RootLayout({
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="antialiased bg-white text-gray-900 m-0 p-0">
+      <body className="antialiased font-sans bg-memoli-light text-memoli-dark m-0 p-0">
         <BetaSignupProvider>
           <Header />
           {children}

@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Turnstile } from "next-turnstile";
+
+const FOCUSABLE_SELECTOR =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
@@ -98,37 +101,80 @@ export default function BetaSignupPopup({
     }
   };
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Focus trap and initial focus (client-only; safe for static export)
+  useEffect(() => {
+    if (!isOpen || !dialogRef.current) return;
+    const dialog = dialogRef.current;
+    const focusables = dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    first?.focus();
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    dialog.addEventListener("keydown", handleKey);
+    return () => dialog.removeEventListener("keydown", handleKey);
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const turnstileConfigured = Boolean(siteKey);
   const canSubmit = turnstileConfigured && turnstileToken;
 
+  const handleBackdropKey = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleClose();
+    }
+  };
+
+  const inputClass =
+    "w-full px-4 py-3 md:py-4 md:px-5 md:text-base rounded-xl border border-gray-300 focus:ring-2 focus:ring-memoli-primary focus:border-memoli-primary outline-none transition-colors text-memoli-dark placeholder:text-gray-400 bg-memoli-light";
+  const labelClass = "block text-sm md:text-base font-medium text-memoli-dark mb-1 md:mb-2";
+  const btnBase =
+    "flex-1 px-4 py-3 md:py-4 md:text-base rounded-2xl font-medium transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed";
+
   const content = (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div
         className="absolute inset-0 cursor-pointer"
         onClick={handleClose}
-        onKeyDown={(e) => e.key === "Escape" && handleClose()}
+        onKeyDown={handleBackdropKey}
         role="button"
         tabIndex={0}
         aria-label="Close modal"
       />
       <div
-        className="relative bg-white rounded-2xl shadow-xl w-full max-w-md md:max-w-xl lg:max-w-2xl max-h-[90vh] overflow-y-auto"
+        ref={dialogRef}
+        className="relative bg-memoli-light rounded-2xl shadow-xl w-full max-w-md md:max-w-xl lg:max-w-2xl max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="beta-signup-title"
       >
         <div className="p-6 md:p-10 lg:p-12">
           <div className="flex items-center justify-between mb-6 md:mb-8">
-            <h2 id="beta-signup-title" className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">
+            <h2 id="beta-signup-title" className="text-xl md:text-2xl lg:text-3xl font-bold text-memoli-dark">
               Join as Beta Tester
             </h2>
             <button
               type="button"
               onClick={handleClose}
-              className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+              className="p-2 rounded-2xl text-memoli-dark/70 hover:text-memoli-dark hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-memoli-primary cursor-pointer"
               aria-label="Close"
             >
               <span className="text-xl leading-none">&times;</span>
@@ -144,15 +190,15 @@ export default function BetaSignupPopup({
               <button
                 type="button"
                 onClick={handleClose}
-                className="mt-6 md:mt-8 px-5 py-2.5 md:py-3 md:px-6 md:text-base rounded-xl bg-[#3F83F8] text-white font-medium hover:bg-[#2563EB] transition-colors cursor-pointer"
+                className="mt-6 md:mt-8 px-5 py-2.5 md:py-3 md:px-6 md:text-base rounded-2xl bg-memoli-primary text-memoli-surface font-medium hover:bg-memoli-primary-hover transition-colors cursor-pointer"
               >
                 Close
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5 text-gray-900">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5 text-memoli-dark">
               <div>
-                <label htmlFor="beta-name" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
+                <label htmlFor="beta-name" className={labelClass}>
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -162,13 +208,13 @@ export default function BetaSignupPopup({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full px-4 py-3 md:py-4 md:px-5 md:text-base rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#3F83F8] focus:border-[#3F83F8] outline-none transition-colors text-gray-900 placeholder:text-gray-400 bg-white"
+                  className={inputClass}
                   disabled={submitState === "submitting"}
                   autoComplete="name"
                 />
               </div>
               <div>
-                <label htmlFor="beta-email" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
+                <label htmlFor="beta-email" className={labelClass}>
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -178,13 +224,13 @@ export default function BetaSignupPopup({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 md:py-4 md:px-5 md:text-base rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#3F83F8] focus:border-[#3F83F8] outline-none transition-colors text-gray-900 placeholder:text-gray-400 bg-white"
+                  className={inputClass}
                   disabled={submitState === "submitting"}
                   autoComplete="email"
                 />
               </div>
               <div>
-                <label htmlFor="beta-message" className="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">
+                <label htmlFor="beta-message" className={labelClass}>
                   Message to team
                 </label>
                 <textarea
@@ -193,7 +239,7 @@ export default function BetaSignupPopup({
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Tell us what you think about the app or ask us anything..."
                   rows={3}
-                  className="w-full px-4 py-3 md:py-4 md:px-5 md:text-base rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#3F83F8] focus:border-[#3F83F8] outline-none transition-colors resize-none text-gray-900 placeholder:text-gray-400 bg-white"
+                  className={`${inputClass} resize-none`}
                   disabled={submitState === "submitting"}
                 />
               </div>
@@ -229,14 +275,14 @@ export default function BetaSignupPopup({
                   type="button"
                   onClick={handleClose}
                   disabled={submitState === "submitting"}
-                  className="flex-1 px-4 py-3 md:py-4 md:text-base rounded-xl border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className={`${btnBase} border-2 border-gray-300 text-memoli-dark hover:bg-gray-50`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitState === "submitting" || !canSubmit}
-                  className="flex-1 px-4 py-3 md:py-4 md:text-base rounded-xl bg-[#3F83F8] text-white font-medium hover:bg-[#2563EB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  className={`${btnBase} bg-memoli-primary text-memoli-surface hover:bg-memoli-primary-hover disabled:opacity-50`}
                 >
                   {submitState === "submitting" ? "Submitting…" : "Join waitlist"}
                 </button>

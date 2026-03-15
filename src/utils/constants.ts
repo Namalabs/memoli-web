@@ -1,4 +1,6 @@
-import { TeamMember, Testimonial } from "@memoli/types";
+import { TeamMember, Testimonial, Collaborator } from "@memoli/types";
+
+export const APP_STORE_URL = "https://testflight.apple.com/join/5sRkNqY1";
 
 // Navigation links
 export const NAV_LINKS = [
@@ -13,7 +15,7 @@ export const SOCIAL_LINKS = [
   { label: "TikTok", href: "#", icon: "/image/icons/tiktok.png" },
 ];
 
-// Team members data (bios from Figma — The People Behind Memoli)
+// Team members data — names and bios (quotes) must match Figma; copy from design if there are typos or mismatches. Titles/positions OK as-is.
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "1",
@@ -99,36 +101,53 @@ export const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-// Features data
+// Features data (id, title, image, animation used by home FeaturesSection)
 export const FEATURES = [
   {
     id: "1",
-    title: "Smart Scan",
-    description: "Zero Effort",
+    title: "Smart Scan, Zero Effort",
+    description:
+      "Skip manual typing; use on-device vision to digitize your household inventory instantly by taking a single, quick product label scan.",
     image: "/animations/scanner.png",
     animation: "/animations/scan.lottie",
+    reversed: false,
   },
   {
     id: "2",
-    title: "Proactive",
-    description: "Expiry Tracker",
+    title: "Proactive Expiry Tracker",
+    description:
+      'Prevent forgotten, expired products with automated alerts sent before "use-by" dates to keep families healthy while saving budgets and the planet.',
     image: "/animations/notification.png",
     animation: "/animations/expiry.lottie",
+    reversed: true,
   },
   {
     id: "3",
-    title: "Ingredient",
-    description: "Safety Guard",
+    title: "Ingredient Safety Guard",
+    description:
+      'Gain instant label insights as our checker verifies ingredients against safety standards, helping you choose "healthier" household items with confidence.',
     image: "/animations/detail.png",
     animation: "/animations/ingredients.lottie",
+    reversed: false,
   },
   {
     id: "4",
-    title: "Family",
-    description: "Synchronization",
+    title: "Family Synchronization",
+    description:
+      "Stay perfectly aligned with a shared shelf-view that syncs inventory with your family member so everyone knows what is in-stock.",
     image: "/animations/scanner.png",
     animation: "/animations/fam.lottie",
+    reversed: true,
   },
+];
+
+// Collaborators / partners (home page)
+export const COLLABORATORS: Collaborator[] = [
+  { name: "Apple Developer Academy", label: "Apple Developer Academy", logo: "/image/logo/ADA.png", logoHover: "/image/logo/ADA_hover.png" },
+  // { name: "IA", label: "IA", logo: "/image/logo/IA.png", logoHover: "/image/logo/IA_hover.png" },
+  { name: "Lunexia", label: "Lunexia", logo: "/image/logo/lunexia.png", logoHover: "/image/logo/lunexia_hover.png" },
+  // { name: "WE WAW", label: "WE WAW", logo: "/image/logo/wewaw.png", logoHover: "/image/logo/wewaw_hover.png" },
+  { name: "Lumina Consulting", label: "Lumina Consulting", logo: "/image/logo/lumina.png", logoHover: "/image/logo/lumina_hover.png" },
 ];
 
 // Vision cards data

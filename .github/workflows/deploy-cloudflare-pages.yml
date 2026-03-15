@@ -1,5 +1,7 @@
 # Deploy Next.js static export to Cloudflare Pages
-# Runs when you push a tag matching memoli-v* (e.g. memoli-v1.0)
+# Runs when you push a tag matching memoli-v* (e.g. memoli-v1.0).
+# Uses --branch=main so the deployment goes to production (not preview).
+# If your Cloudflare project's production branch is different, change it in the deploy command below.
 
 name: Deploy to Cloudflare Pages
 
@@ -40,4 +42,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }}
+          command: pages deploy out --project-name=${{ secrets.CLOUDFLARE_PAGES_PROJECT_NAME }} --branch=main

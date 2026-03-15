@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { SOCIAL_LINKS } from "@memoli/utils/constants";
+import { SOCIAL_LINKS, APP_STORE_URL } from "@memoli/utils/constants";
 import { useFadeIn, useStaggerChildren } from "@memoli/hooks/useGSAP";
 
 export default function Footer() {
@@ -11,11 +11,11 @@ export default function Footer() {
   const copyrightRef = useFadeIn({ y: 10, duration: 0.5, start: "top bottom" });
 
   const linkClass =
-    "text-sm text-slate-700 hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white rounded px-1 py-0.5";
+    "text-sm text-memoli-dark hover:text-memoli-dark/90 transition-colors focus:outline-none focus:ring-2 focus:ring-memoli-primary focus:ring-offset-2 focus:ring-offset-memoli-light rounded px-1 py-0.5";
 
   return (
     <footer
-      className="bg-[#F2F7FF] text-slate-800 overflow-hidden"
+      className="bg-memoli-section-bg text-memoli-dark overflow-hidden rounded-t-[64px] md:rounded-t-[88px]"
       role="contentinfo"
     >
       <div className="max-w-[1280px] mx-auto px-6 py-12 md:px-10 md:py-16 lg:px-16 lg:py-20">
@@ -47,7 +47,7 @@ export default function Footer() {
             </Link>
             <ul className="space-y-2">
               <li>
-                <Link href="https://testflight.apple.com/join/5sRkNqY1" target="_blank" rel="noopener noreferrer" className={linkClass}>
+                <Link href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   Download App
                 </Link>
               </li>
@@ -66,7 +66,7 @@ export default function Footer() {
 
           {/* Column 2: Company */}
           <div>
-            <h3 className="text-sm lg:text-base font-bold text-slate-800 mb-3 md:mb-4">
+            <h3 className="text-sm lg:text-base font-bold text-memoli-dark mb-3 md:mb-4">
               Company
             </h3>
             <ul className="space-y-2">
@@ -85,7 +85,7 @@ export default function Footer() {
 
           {/* Column 3: Socials */}
           <div>
-            <h3 className="sr-only md:not-sr-only text-sm lg:text-base font-bold text-slate-800 mb-3 md:mb-4">
+            <h3 className="sr-only md:not-sr-only text-sm lg:text-base font-bold text-memoli-dark mb-3 md:mb-4">
               Socials
             </h3>
             <div className="flex gap-3 md:gap-4">
@@ -93,7 +93,7 @@ export default function Footer() {
                 <Link
                   key={social.label}
                   href={social.href}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                  className="w-9 h-9 rounded-2xl flex items-center justify-center hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-memoli-light"
                   aria-label={social.label}
                   title={social.label}
                 >
@@ -116,7 +116,7 @@ export default function Footer() {
         {/* Copyright - very small, dark blue/black; suppressHydrationWarning for year */}
         <div
           ref={copyrightRef}
-          className="text-center text-slate-600 text-xs"
+          className="text-center text-memoli-dark/80 text-xs"
           suppressHydrationWarning
         >
           © {currentYear} Memoli by NamaLabs. All Rights Reserved.
