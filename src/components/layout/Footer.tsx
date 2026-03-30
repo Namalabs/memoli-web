@@ -36,7 +36,7 @@ export default function Footer() {
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 mb-8">
           {/* Column 1: Memoli - image asset */}
           <div>
-            <Link href="/" className="hidden md:inline-block mb-4" aria-label="Memoli home">
+            <Link href="/" className="hidden md:inline-block mb-3" aria-label="Memoli home">
               <Image
                 src="/image/brand/memoli_full.webp"
                 alt="Memoli"
@@ -71,12 +71,12 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="#" className={linkClass}>
+                <Link href="/terms" className={linkClass}>
                   Terms & Conditions
                 </Link>
               </li>
               <li>
-                <Link href="#" className={linkClass}>
+                <Link href="/privacy" className={linkClass}>
                   Privacy Policy
                 </Link>
               </li>
