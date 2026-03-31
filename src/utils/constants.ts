@@ -10,16 +10,19 @@ export const NAV_LINKS = [
 
 // Social links
 export const SOCIAL_LINKS = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/memoliapp", icon: "/image/icons/linkedin.webp" },
-  { label: "Instagram", href: "#", icon: "/image/icons/instagram.webp" },
-  { label: "TikTok", href: "#", icon: "/image/icons/tiktok.webp" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/memoliapp/", icon: "/image/icons/linkedin.webp" },
+  { label: "Instagram", href: "https://www.instagram.com/memoli.app/", icon: "/image/icons/instagram.webp" },
+  { label: "TikTok", href: "https://www.tiktok.com/@memoli.app", icon: "/image/icons/tiktok.webp" },
+  { label: "Threads", href: "https://www.threads.com/@memoli.app", icon: "/image/icons/threads.webp" },
+  { label: "Twitter", href: "https://x.com/memoliapp", icon: "/image/icons/twitter.svg" },
+  { label: "Facebook", href: "https://facebook.com/memoliapp", icon: "/image/icons/facebook.svg" },
 ];
 
 // Team members data — names and bios (quotes) must match Figma; copy from design if there are typos or mismatches. Titles/positions OK as-is.
 export const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "1",
-    name: "Olafiqh Wibowo",
+    name: "Olaffiqih Wibowo",
     role: "Clinical Psychologist",
     profession: "Lead",
     image: "/image/about/profile_olaff.webp",

@@ -17,8 +17,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
 const PUBLIC = join(ROOT, "public");
 
-const RASTER_EXT = new Set([".png", ".jpg", ".jpeg"]);
-const WEBP_QUALITY = 85;
+const RASTER_EXT = new Set([".png", ".jpg", ".jpeg", ".svg"]);
+const WEBP_QUALITY = 95;
 const MAX_DIMENSION = 16383; // WebP format limit
 
 function collectRasterFiles(dir, list = []) {

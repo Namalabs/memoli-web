@@ -95,7 +95,7 @@ function FeatureAnimation({
   }
 
   const content =
-    isMobile || useFallback ? (
+    useFallback ? (
       <FallbackImage src={fallbackImage} />
     ) : (
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl">

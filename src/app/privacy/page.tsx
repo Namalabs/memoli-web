@@ -1,124 +1,145 @@
 import LegalArticle from "@memoli/components/legal/LegalArticle";
 
-const EFFECTIVE_DATE = "March 25, 2026";
+const EFFECTIVE_DATE = "22 Desember 2025";
 
 export default function PrivacyPage() {
   return (
     <LegalArticle title="Privacy Policy" effectiveDate={EFFECTIVE_DATE}>
       <p>
-        This privacy policy applies to the Memoli app (hereby referred to as &quot;Application&quot;) for
-        mobile devices, developed by NamaLabs (hereby referred to as &quot;Service Provider&quot;), as a free
-        service. Memoli helps you manage household inventory with smart scanning, expiry tracking, and optional
-        family synchronization. This service is intended for use &quot;AS IS&quot;.
+        This Privacy Policy describes how Namalabs under PT Cipta Cita Indonesia (&quot;Memoli,&quot; &quot;we,&quot;
+        &quot;us,&quot; or &quot;our&quot;) collects, uses, and shares information in connection with your use of
+        the Memoli iOS application and related services.
+      </p>
+      <p>
+        This policy is designed to align with the Memoli Terms of Service and adheres to the principles of
+        transparency and &quot;Privacy by Design.&quot; By using the Service, you consent to the data practices
+        described in this policy.
       </p>
 
-      <h2>Information Collection and Use</h2>
-      <p>The Application collects information when you download and use it. This information may include:</p>
-      <ul>
-        <li>Your device&apos;s Internet Protocol address (e.g. IP address)</li>
-        <li>
-          The screens or areas of the Application you use, the time and date of your visit, and the time spent
-          on those areas
-        </li>
-        <li>The time spent in the Application</li>
-        <li>The operating system you use on your mobile device</li>
-      </ul>
-      <p>The Application does not gather precise information about the location of your mobile device.</p>
+      <h2>1. Information We Collect</h2>
+      <p>1.1 Information You Provide Directly</p>
       <p>
-        The Service Provider may use the information you provide to contact you from time to time with important
-        information, required notices, and occasional product updates or promotions related to Memoli.
+        Account Data: When you register via Apple Sign-In, we receive a unique identifier and, depending on your
+        settings, your name and email address.
       </p>
       <p>
-        For a better experience while using the Application, the Service Provider may ask you to provide certain
-        personally identifiable information (for example, your email address). The information the Service
-        Provider requests will be retained and used as described in this privacy policy.
+        Inventory Data: This includes images of product labels, barcodes, and retail receipts (e.g., from Alfamart
+        or Indomaret) that you upload to digitize your pantry.
       </p>
-
-      <h2>Third Party Access</h2>
+      <p>User Preferences: Data regarding your household size, dietary sensitivities, or preferred alert frequencies.</p>
+      <p>1.2 Automatically Collected Information</p>
       <p>
-        Only aggregated, anonymized data may be transmitted periodically to external services to help the Service
-        Provider improve the Application and its service. The Service Provider may share your information with
-        third parties in the ways described in this privacy statement.
+        Usage Metadata: We collect data on how you interact with the app, such as the frequency of scans, common
+        categories of products tracked, and waste patterns (items marked as &quot;expired&quot; or
+        &quot;disposed&quot;).
       </p>
-      <p>The Service Provider may disclose User Provided and Automatically Collected Information:</p>
-      <ul>
-        <li>as required by law, such as to comply with a subpoena or similar legal process;</li>
-        <li>
-          when they believe in good faith that disclosure is necessary to protect their rights, protect your
-          safety or the safety of others, investigate fraud, or respond to a government request;
-        </li>
-        <li>
-          with trusted service providers who work on their behalf, do not have an independent use of the
-          information we disclose to them, and have agreed to adhere to the rules set forth in this privacy
-          statement.
-        </li>
-      </ul>
-
-      <h2>Opt-Out Rights</h2>
       <p>
-        You can stop all collection of information by the Application by uninstalling it. You may use the standard
-        uninstall processes available on your mobile device or through the mobile application marketplace or
-        network.
+        Device Information: We collect technical details such as your iOS version and device model to optimize the
+        performance of on-device AI-OCR (VisionKit).
       </p>
 
-      <h2>Data Retention Policy</h2>
+      <h2>2. Use of Information and AI Processing</h2>
       <p>
-        The Service Provider will retain User Provided data for as long as you use the Application and for a
-        reasonable time thereafter. If you would like them to delete User Provided Data that you have provided
-        via the Application, please contact them at{" "}
-        <a href="mailto:hello@memoli.app">hello@memoli.app</a> and they will respond in a reasonable time.
+        2.1 Service Delivery and AI-OCR We use your information primarily to facilitate the &quot;Safety Net&quot;
+        features of Memoli. Images of labels and receipts are processed using VisionKit (on-device) and Mistral AI
+        (cloud-secured) to extract expiry dates and ingredient lists. This automated processing is essential for
+        providing real-time safety alerts and inventory tracking.
+      </p>
+      <p>
+        2.2 B2B Data Analytics and Market Insights A core component of our &quot;Waste to Value&quot; mission
+        involves analyzing household consumption patterns. Namalabs under PT Cipta Cita Indonesia may use your
+        anonymized, aggregated usage data to generate B2B analytical reports for Fast-Moving Consumer Goods (FMCG)
+        partners.
+      </p>
+      <p>
+        The Anonymization Standard: Before any data is utilized for B2B analytics, it is stripped of all Personal
+        Identifiable Information (PII). FMCG partners receive insights such as &quot;Regional waste trends for
+        dairy products&quot; or &quot;Commonly ignored ingredient alerts,&quot; which are never linked back to an
+        individual user or household.
+      </p>
+      <p>
+        Purpose: These insights help manufacturers improve supply chain efficiency and product safety, ultimately
+        reducing global household waste.
       </p>
 
-      <h2>Children</h2>
+      <h2>3. Data Sharing and Third Parties</h2>
       <p>
-        The Service Provider does not use the Application to knowingly solicit data from or market to children
-        under the age of 13.
+        3.1 Third-Party Service Providers We share data with service providers who perform functions on our behalf,
+        such as cloud hosting and database management. These partners are contractually obligated to protect your
+        data and are prohibited from using it for their own marketing purposes.
       </p>
       <p>
-        The Service Provider does not knowingly collect personally identifiable information from children. The
-        Service Provider encourages parents and legal guardians to monitor their children&apos;s use of apps and
-        the internet and to help enforce this Policy by instructing children never to provide personally
-        identifiable information through the Application and/or Services without permission. If you believe a
-        child has provided personally identifiable information to the Service Provider through the Application
-        and/or Services, please contact the Service Provider at{" "}
-        <a href="mailto:hello@memoli.app">hello@memoli.app</a> so that appropriate steps can be taken. You must
-        also be at least 16 years of age to consent to the processing of your personally identifiable
-        information in your country (in some countries your parent or guardian may consent on your behalf).
+        3.2 Affiliate and Replenishment Links When you use the &quot;Smart Replenishment&quot; feature to purchase
+        items via third-party marketplaces (e.g., Tokopedia, Shopee), you will be redirected to their platforms.
+        Those entities have their own privacy policies, and Namalabs under PT Cipta Cita Indonesia is not
+        responsible for their data handling practices.
       </p>
-
-      <h2>Security</h2>
       <p>
-        The Service Provider is concerned about safeguarding the confidentiality of your information. The Service
-        Provider uses physical, electronic, and procedural safeguards to protect information the Service Provider
-        processes and maintains.
+        3.3 Legal Compliance We may disclose your information if required to do so by Indonesian law (such as UU
+        ITE) or in response to valid requests by public authorities.
       </p>
 
-      <h2>Changes</h2>
+      <h2>4. Cross-Border Data Transfer</h2>
       <p>
-        This Privacy Policy may be updated from time to time. The Service Provider will notify you of material
-        changes by updating this page with the new Privacy Policy. You are advised to review this Privacy Policy
-        periodically; continued use of the Application after changes are posted constitutes your acceptance of the
-        updated policy.
+        4.1 International Infrastructure While Memoli is operated by Namalabs under PT Cipta Cita Indonesia and
+        primarily targets the Indonesian market, our Service utilizes global cloud infrastructure (such as AWS or
+        Google Cloud).
       </p>
-      <p className="text-sm text-memoli-dark/60">This privacy policy is effective as of {EFFECTIVE_DATE}.</p>
-
-      <h2>Your Consent</h2>
       <p>
-        By using the Application, you consent to the processing of your information as set forth in this Privacy
-        Policy, including as it may be amended from time to time.
+        4.2 Transfer Safeguards By using Memoli, you acknowledge and agree that your information may be
+        transferred to, and processed in, countries other than Indonesia. We ensure that these transfers comply
+        with the Indonesian Personal Data Protection Law (UU PDP) and utilize Standard Contractual Clauses (SCCs)
+        or equivalent safeguards to ensure your data receives a level of protection comparable to that in your
+        home jurisdiction.
       </p>
 
-      <div className="bg-memoli-section-bg border-l-4 border-memoli-accent p-4 rounded-lg mt-8">
-        <strong className="text-memoli-dark">Contact us</strong>
-        <p className="mt-2 mb-0 text-memoli-dark font-medium text-base">
-          If you have questions about privacy while using the Application or about these practices, contact the
-          Service Provider at{" "}
-          <a href="mailto:hello@memoli.app" className="text-memoli-accent underline">
-            hello@memoli.app
-          </a>
-          .
-        </p>
-      </div>
+      <h2>5. Security and Data Sovereignty</h2>
+      <p>
+        5.1 On-Device Processing To maximize privacy, Memoli prioritizes on-device processing for initial image
+        recognition. This means that many of your photos are analyzed directly on your iPhone and are not
+        necessarily uploaded to our servers unless required for cloud-based AI synthesis or database
+        synchronization.
+      </p>
+      <p>
+        5.2 Security Measures We implement industry-standard administrative, technical, and physical security
+        measures to protect your data from unauthorized access or disclosure. However, no method of transmission
+        over the internet is 100% secure, and we cannot guarantee absolute security.
+      </p>
+
+      <h2>6. Your Rights and Choices</h2>
+      <p>6.1 Access and Updates You can view and modify your household inventory and account details directly within the Memoli app settings.</p>
+      <p>
+        6.2 The &quot;Right to be Forgotten&quot; You may request the deletion of your account at any time. Upon
+        deletion, Namalabs under PT Cipta Cita Indonesia will purge your PII from our active databases. Residual
+        anonymized data used in B2B aggregate reports may remain, as it no longer constitutes &quot;personal
+        data&quot; under applicable law.
+      </p>
+      <p>
+        6.3 Communication Preferences You may opt out of receiving non-essential notifications (such as marketing
+        tips or &quot;Memoli Moments&quot;) via your iOS system settings.
+      </p>
+
+      <h2>7. Changes to This Policy</h2>
+      <p>
+        We may update this Privacy Policy to reflect changes in our roadmap (Scenario 1) or regulatory
+        requirements. We will notify you of any material changes by posting the new policy within the app and
+        updating the &quot;Effective Date&quot; at the top of this document.
+      </p>
+
+      <h2>8. Contact Information</h2>
+      <p>If you have questions or concerns about this Privacy Policy or our data practices, please contact our Data Protection Office:</p>
+      <p>Namalabs under PT Cipta Cita Indonesia</p>
+      Email: <a href="mailto:hello@memoli.app" className="text-memoli-accent underline">hello@memoli.app</a>
+      <p>
+      Address: 
+        Apple Developer Institute for Professionals Autograph Tower – 51st Floor | Thamrin Nine Complex
+        Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10230
+      {/* <a href="https://maps.app.goo.gl/t94Tfq5YnBD94VpQ9" className="text-normal">🔗</a> */}
+      </p>
+      <p className="text-md text-memoli-dark/60">
+        By continuing to use Memoli, you acknowledge that you have read and understood this Privacy Policy and
+        agree to the processing of your data as outlined above.
+      </p>
     </LegalArticle>
   );
 }
