@@ -72,7 +72,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/terms" className={linkClass}>
-                  Terms & Conditions
+                  Terms of Service
                 </Link>
               </li>
               <li>

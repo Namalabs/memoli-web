@@ -15,7 +15,7 @@ export default function LegalArticle({ title, effectiveDate, children }: LegalAr
           <h1 className="text-3xl md:text-4xl font-bold text-memoli-dark mb-2">{title}</h1>
           <p className="text-sm text-memoli-dark/60">Effective as of {effectiveDate}</p>
         </header>
-        <div className="text-memoli-dark font-medium text-base md:text-lg leading-relaxed [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-memoli-accent [&_h2]:mt-8 [&_h2]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul]:space-y-1 [&_a]:text-memoli-accent [&_a]:underline">
+        <div className="text-memoli-dark/70 font-medium text-base md:text-lg leading-relaxed [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-memoli-accent [&_h2]:mt-8 [&_h2]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul]:space-y-1 [&_a]:text-memoli-accent [&_a]:underline">
           {children}
         </div>
       </article>
