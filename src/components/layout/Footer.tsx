@@ -80,6 +80,11 @@ export default function Footer() {
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link href="/eula" className={linkClass}>
+                  Terms of Use (EULA)
+                </Link>
+              </li>
             </ul>
           </div>
 
