@@ -1,10 +1,10 @@
 import LegalArticle from "@memoli/components/legal/LegalArticle";
 
-const EFFECTIVE_DATE = "9 April 2026";
+const EFFECTIVE_DATE = "22 Desember 2025";
 
 export default function EULAPage() {
   return (
-    <LegalArticle title="Terms of Use (EULA)" effectiveDate={EFFECTIVE_DATE}>
+    <LegalArticle title="End User License Agreement (EULA)" effectiveDate={EFFECTIVE_DATE}>
       <p>
         This <strong>Licensed Application End User License Agreement (&quot;EULA&quot;)</strong> is a legal agreement
         between you and <strong>Namalabs under PT Cipta Cita Indonesia</strong>.
