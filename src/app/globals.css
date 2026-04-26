@@ -42,6 +42,7 @@
   --memoli-primary: #2563eb;
   --memoli-download-start: #4089f1;
   --memoli-download-end: #245edf;
+  --memoli-blog-primary: #3C7CF7;
 }
 
 @theme inline {
@@ -171,3 +172,25 @@ body {
   }
 }
 
+/* Blog CSS */
+.ghost-content {
+  font-family: var(--font-jakarta);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #152B56;
+}
+.ghost-content h2 { font-size: 22px; font-weight: 700; margin: 2.5rem 0 1rem; color: #152B56; }
+.ghost-content h3 { font-size: 18px; font-weight: 700; margin: 2rem 0 0.75rem; color: #152B56; }
+.ghost-content p { margin: 0 0 1.25rem; }
+.ghost-content a { color: #3C7CF7; text-decoration: underline; }
+.ghost-content img { max-width: 100%; height: auto; border-radius: 16px; margin: 1.5rem 0; }
+.ghost-content figure { margin: 2rem 0; }
+.ghost-content figcaption { text-align: center; font-size: 10px; color: #999898; margin-top: 0.5rem; }
+.ghost-content blockquote { border-left: 3px solid #3C7CF7; margin: 1.5rem 0; padding: 0.5rem 0 0.5rem 1.25rem; color: #999898; font-style: italic; }
+.ghost-content pre { background: #f4f4f4; padding: 1.25rem; border-radius: 8px; overflow-x: auto; font-size: 12px; margin: 1.5rem 0; }
+.ghost-content code { background: #f4f4f4; padding: 0.15em 0.4em; border-radius: 4px; font-size: 12px; }
+.ghost-content pre code { background: none; padding: 0; }
+.ghost-content ul, .ghost-content ol { padding-left: 1.5rem; margin: 0 0 1.25rem; }
+.ghost-content li { margin-bottom: 0.4rem; }
+.ghost-content hr { border: none; border-top: 1px solid rgba(0,0,0,0.1); margin: 2.5rem 0; }

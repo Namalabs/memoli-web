@@ -3,6 +3,7 @@ import { TeamMember, Testimonial } from "@memoli/types";
 // Navigation links
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog"},
   { label: "About Us", href: "/about" },
 ];
 
