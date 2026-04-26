@@ -32,6 +32,7 @@ export default function AuthorCard({ author, date, onAuthorClick }: AuthorCardPr
         borderRadius: 32,
         padding: 16,
       }}
+      onClick={onAuthorClick}
     >
       {/* Avatar */}
       {author.profile_image ? (
