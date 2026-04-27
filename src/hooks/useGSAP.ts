@@ -16,13 +16,20 @@ export function useFadeIn(options?: {
   duration?: number;
   delay?: number;
   start?: string;
+  ease?: string;
+  enabled?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { y = 40, duration = 0.8, delay = 0, start = "top 85%" } = options ?? {};
+  const { y = 40, duration = 0.8, delay = 0, start = "top 85%", ease = "power2.out", enabled = true } = options ?? {};
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (!enabled) {
+      gsap.set(el, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.set(el, { opacity: 0, y });
 
@@ -35,7 +42,7 @@ export function useFadeIn(options?: {
         y: 0,
         duration,
         delay,
-        ease: "power2.out",
+        ease,
       });
     };
 
@@ -59,7 +66,7 @@ export function useFadeIn(options?: {
       cancelAnimationFrame(raf);
       clearTimeout(t);
     };
-  }, [y, duration, delay, start]);
+  }, [y, duration, delay, start, ease, enabled]);
 
   return ref;
 }
@@ -75,6 +82,7 @@ export function useStaggerChildren(options?: {
   stagger?: number;
   childSelector?: string;
   start?: string;
+  enabled?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const {
@@ -83,6 +91,7 @@ export function useStaggerChildren(options?: {
     stagger = 0.12,
     childSelector = ":scope > *",
     start = "top 85%",
+    enabled = true,
   } = options ?? {};
 
   useEffect(() => {
@@ -91,6 +100,11 @@ export function useStaggerChildren(options?: {
 
     const children = el.querySelectorAll(childSelector);
     if (!children.length) return;
+
+    if (!enabled) {
+      gsap.set(children, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.set(children, { opacity: 0, y });
 
@@ -127,7 +141,7 @@ export function useStaggerChildren(options?: {
       cancelAnimationFrame(raf);
       clearTimeout(t);
     };
-  }, [y, duration, stagger, childSelector, start]);
+  }, [y, duration, stagger, childSelector, start, enabled]);
 
   return ref;
 }

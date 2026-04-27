@@ -25,31 +25,34 @@ export default function Button({
 }: ButtonProps) {
   // Download button with Apple icon and CSS gradient styling
   if (useDownloadButton) {
-    return DownloadButton({ href, className });
+    return (
+      <DownloadButton href={href} className={className} aria-label={props["aria-label"]}>
+        {children}
+      </DownloadButton>
+    );
   }
 
-  // Default button styling — design-ref: rectangular, ~8–10px radius, solid blue
+  // Default button styling
   const baseClasses =
-    "inline-flex items-center justify-center rounded-xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer";
+    "inline-flex items-center justify-center cursor-pointer rounded-full font-semibold transition-all duration-200 hover:border-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variantClasses = {
     primary:
-      "bg-[#3F83F8] text-white hover:bg-[#2563EB] focus:ring-[#3F83F8] focus:ring-offset-white",
+      "bg-blue-600 text-white hover:bg-blue-700 hover:shadow-lg focus:ring-blue-00 focus:ring-offset-white",
     outline:
-      "border-2 border-[#3F83F8] text-[#3F83F8] bg-white hover:bg-blue-50 focus:ring-[#3F83F8] focus:ring-offset-white",
+      "border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 focus:ring-offset-white",
   };
 
   const sizeClasses = {
-    sm: "px-3 py-1 text-xs gap-1 min-h-[36px]",
-    md: "px-5 py-3 md:px-6 md:py-3 text-sm md:text-base gap-1.5 min-h-[52px]",
-    lg: "px-6 py-3 lg:px-8 lg:py-3 text-base lg:text-lg gap-2 min-h-[52px]",
+    sm: "px-3 py-2.5 text-xs gap-1",
+    md: "px-4 py-2.5 md:px-5 md:py-2 text-sm md:text-base gap-1.5",
+    lg: "px-6 py-2 lg:px-8 lg:py-3 text-base lg:text-lg gap-2",
   };
 
   const buttonClass = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
 
-  // Render as button when onClick is used or when href is not a valid link
-  const useAsButton = typeof props.onClick === "function" || href == null || href === "";
-  if (!useAsButton && href) {
+  // Treat empty href as action-only (e.g. "Join Beta" modal) — render button, not link
+  if (href && href.trim() !== "") {
     return (
       <a href={href} className={buttonClass}>
         {icon}
@@ -59,20 +62,35 @@ export default function Button({
   }
 
   return (
-    <button type="button" className={buttonClass} {...props}>
+    <button className={buttonClass} {...props}>
       {icon}
       {children}
     </button>
   );
 }
 
-function DownloadButton({ href, className }: { href: string; className?: string }) {
+function DownloadButton({
+  href,
+  className,
+  "aria-label": ariaLabel,
+  children,
+}: {
+  href: string;
+  className?: string;
+  "aria-label"?: string;
+  children?: React.ReactNode;
+}) {
+  const label = children ?? "Download Now";
   return (
-    <a href={href} className={["memoli-download-btn cursor-pointer", className].filter(Boolean).join(" ").trim()}>
-      <div className="memoli-download-btn-icon">
+    <a
+      href={href}
+      className={`downloadButton flex-shrink-0 ${className || ""}`.trim()}
+      aria-label={ariaLabel}
+    >
+      <div className="iconWrapper">
         <AppleIcon className="w-6 h-6 flex-shrink-0" />
       </div>
-      <span>Download Now</span>
+      <span>{label}</span>
     </a>
   );
 }

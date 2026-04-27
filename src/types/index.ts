@@ -34,3 +34,11 @@ export interface VisionCard {
   description: string;
   icon?: string;
 }
+
+// Collaborator / partner logo type
+export interface Collaborator {
+  name: string;
+  label: string;
+  logo: string;
+  logoHover: string;
+}

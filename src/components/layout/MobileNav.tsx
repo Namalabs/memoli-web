@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_LINKS } from "@memoli/utils/constants";
+import { NAV_LINKS, APP_STORE_URL } from "@memoli/utils/constants";
 import Button from "@memoli/components/ui/Button";
 
 function MenuOverlay({
@@ -31,7 +31,7 @@ function MenuOverlay({
       {/* Menu Panel */}
       <div
         id="mobile-menu"
-        className="fixed inset-0 z-[9999] flex flex-col bg-white"
+        className="fixed inset-0 z-[9999] flex flex-col bg-memoli-light"
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
@@ -42,11 +42,11 @@ function MenuOverlay({
           className="flex items-center justify-between px-6 py-4 border-b border-gray-100"
           style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}
         >
-          <h2 className="text-lg font-bold text-gray-900">Navigation</h2>
+          <h2 className="text-lg font-bold text-memoli-dark">Navigation</h2>
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#3c7cf7] transition-colors text-[#152b56]"
+            className="flex items-center justify-center w-10 h-10 rounded-2xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-memoli-accent transition-colors text-memoli-dark"
             aria-label="Close menu"
           >
             <img src="/image/icons/close.svg" alt="" className="w-6 h-6" aria-hidden />
@@ -65,13 +65,13 @@ function MenuOverlay({
                 key={link.href}
                 href={link.href}
                 onClick={onClose}
-                className={`flex items-center gap-4 px-5 py-4 rounded-xl text-base font-medium transition-all min-h-[52px] ${
+                className={`flex items-center gap-4 px-5 py-4 rounded-2xl text-base font-medium transition-all min-h-[52px] ${
                   isActive
-                    ? "bg-[#e8f0fe] text-[#3c7cf7] border border-[rgba(134,186,255,0.35)]"
-                    : "text-[#152b56] hover:bg-gray-50 active:bg-gray-100"
+                    ? "bg-memoli-active-bg text-memoli-accent border border-[var(--memoli-border-tint)]"
+                    : "text-memoli-dark hover:bg-gray-50 active:bg-gray-100"
                 }`}
               >
-                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0 rounded-lg bg-gray-100">
+                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                   <img
                     src={link.href === "/" ? "/image/icons/home.svg" : "/image/icons/about.svg"}
                     alt=""
@@ -102,7 +102,7 @@ function MenuOverlay({
           className="border-t border-gray-100 px-6 py-4 text-center text-sm text-gray-400"
           style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
         >
-          <p>© 2026 Memoli. All rights reserved.</p>
+          <p suppressHydrationWarning>© {new Date().getFullYear()} Memoli. All rights reserved.</p>
         </div>
       </div>
 
@@ -121,9 +121,7 @@ function MenuOverlay({
   );
 }
 
-const APP_STORE_URL_DEFAULT = "https://testflight.apple.com/join/5sRkNqY1";
-
-export default function MobileNav({ appStoreUrl = APP_STORE_URL_DEFAULT }: { appStoreUrl?: string }) {
+export default function MobileNav({ appStoreUrl = APP_STORE_URL }: { appStoreUrl?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -162,7 +160,7 @@ export default function MobileNav({ appStoreUrl = APP_STORE_URL_DEFAULT }: { app
       {/* Menu button – public SVG assets (Heroicons-style) */}
       <button
         onClick={toggleMenu}
-        className="md:hidden flex w-10 h-10 items-center justify-center rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#3c7cf7] focus:ring-offset-2 transition-colors text-[#152b56]"
+        className="md:hidden flex w-10 h-10 items-center justify-center rounded-2xl hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-memoli-accent focus:ring-offset-2 transition-colors text-memoli-dark"
         aria-label="Toggle navigation menu"
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
