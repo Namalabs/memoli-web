@@ -5,6 +5,7 @@ export const APP_STORE_URL = "https://testflight.apple.com/join/5sRkNqY1";
 // Navigation links
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog"},
   { label: "About Us", href: "/about" },
 ];
 
