@@ -101,7 +101,7 @@ export default function BlogPage() {
 
   // Blog list
   return (
-    <div className="max-w-[900px] mx-auto px-4 pt-8 pb-16 [@media(min-width:1024px)]:px-8">
+    <div className="max-w-[1200px] mx-auto px-4 md:px-10 pt-8 pb-16">
       {/* Featured */}
       {featured && (
         <BlogFeaturedPost

@@ -16,7 +16,7 @@ export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProp
     >
       {/* Image */}
       {post.feature_image && (
-        <div className="w-full aspect-square overflow-hidden rounded-2xl [@media(min-width:1024px)]:aspect-[4/3]">
+        <div className="w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
           <img
             src={post.feature_image}
             alt={post.feature_image_alt ?? post.title}

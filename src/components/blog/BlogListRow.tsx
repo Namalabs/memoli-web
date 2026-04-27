@@ -44,7 +44,7 @@ export default function BlogListRow({ post, onClick, onAuthorClick }: BlogListRo
           <img
             src={post.feature_image}
             alt={post.feature_image_alt ?? post.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center block"
             loading="lazy"
           />
         </div>

@@ -11,7 +11,7 @@ interface BlogPostProps {
 
 export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps) {
   return (
-    <div className="max-w-[900px] mx-auto px-4 pt-8 pb-24 [@media(min-width:1024px)]:px-8">
+    <div className="max-w-[1200px] mx-auto px-4 md:px-10 pt-8 pb-24">
       <button
         onClick={onBack}
         className="mb-6 text-sm flex items-center gap-1 transition-colors bg-transparent border-none cursor-pointer"
