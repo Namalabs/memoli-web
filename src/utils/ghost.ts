@@ -1,6 +1,6 @@
 // src/utils/ghost.ts
 
-const API_URL = process.env.NEXT_PUBLIC_GHOST_URL ?? "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_GHOST_API_URL ?? "http://localhost:3001";
 const API_KEY = process.env.NEXT_PUBLIC_GHOST_API_KEY ?? "";
 const BASE = `${API_URL}/ghost/api/content`;
 
