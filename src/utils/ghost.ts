@@ -50,11 +50,19 @@ const defaultParams = new URLSearchParams({
   limit: "all",
 });
 
-export async function fetchPosts(): Promise<GhostPost[]> {
-  const res = await fetch(`${BASE}/posts/?${defaultParams}`);
+export async function fetchPosts(page: number = 1, limit: number = 5): Promise<{ posts: GhostPost[], totalPages: number }> {
+  const params = new URLSearchParams({
+    key: API_KEY,
+    include: "tags,authors",
+    formats: "html",
+    limit: String(limit),
+    page: String(page),
+  });
+
+  const res = await fetch(`${BASE}/posts/?${params}`);
   if (!res.ok) throw new Error(`Ghost API error: ${res.status}`);
   const data: GhostPostsResponse = await res.json();
-  return data.posts;
+  return { posts: data.posts, totalPages: data.meta.pagination.pages };
 }
 
 export async function fetchPostBySlug(slug: string): Promise<GhostPost> {

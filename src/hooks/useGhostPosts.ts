@@ -30,13 +30,17 @@ function asyncReducer<T>(
 
 const initialState = { data: null, loading: true, error: null };
 
-export function usePosts() {
-  const [state, dispatch] = useReducer(asyncReducer<GhostPost[]>, initialState);
+export function usePosts(page: number = 1) {
+  const [state, dispatch] = useReducer(
+    asyncReducer<{ posts: GhostPost[]; totalPages: number }>,
+    initialState
+  );
 
   useEffect(() => {
     let cancelled = false;
+    dispatch({ type: "loading" });
 
-    fetchPosts()
+    fetchPosts(page, 4)
       .then((data) => {
         if (!cancelled) dispatch({ type: "success", payload: data });
       })
@@ -48,12 +52,13 @@ export function usePosts() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [page]);
 
   return {
-    posts: state.data ?? [],
+    posts: state.data?.posts ?? [],
     loading: state.loading,
     error: state.error,
+    totalPages: state.data?.totalPages ?? 1,
   };
 }
 
