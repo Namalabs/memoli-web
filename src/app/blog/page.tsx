@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePosts, usePost } from "@memoli/hooks/useGhostPosts";
 import BlogFeaturedPost from "@memoli/components/blog/BlogFeaturedPost";
 import BlogListRow from "@memoli/components/blog/BlogListRow";
@@ -12,16 +12,43 @@ import AuthorPage from "@memoli/components/blog/AuthorPage";
 export default function BlogPage() {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [authorSlug, setAuthorSlug] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const { posts, loading: listLoading, error: listError, totalPages } = usePosts(currentPage);
-  const { post, loading: postLoading, error: postError } = usePost(selectedSlug);
+  const [currentPage, setCurrentPage] = useState(() => {
+    if (typeof window === "undefined") return 1;
+    const params = new URLSearchParams(window.location.search);
+    const page = parseInt(params.get("page") ?? "1", 10);
+    return isNaN(page) || page < 1 ? 1 : page;
+  });
 
+  useEffect(() => {
+    const handlePop = () => {
+      const params = new URLSearchParams(window.location.search);
+      const page = parseInt(params.get("page") ?? "1", 10);
+      setCurrentPage(isNaN(page) || page < 1 ? 1 : page);
+    };
+    window.addEventListener("popstate", handlePop);
+    return () => window.removeEventListener("popstate", handlePop);
+  }, []);
+
+  const {
+    posts,
+    loading: listLoading,
+    error: listError,
+    totalPages,
+  } = usePosts(currentPage);
+  const {
+    post,
+    loading: postLoading,
+    error: postError,
+  } = usePost(selectedSlug);
   const featured = currentPage === 1 ? (posts[0] ?? null) : null;
   const rest = currentPage === 1 ? posts.slice(1) : posts;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", String(page));
+    window.history.pushState({}, "", url);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
