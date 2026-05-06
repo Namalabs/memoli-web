@@ -9,14 +9,23 @@ interface BlogListRowProps {
   onAuthorClick?: () => void;
 }
 
-export default function BlogListRow({ post, onClick, onAuthorClick }: BlogListRowProps) {
+export default function BlogListRow({
+  post,
+  onClick,
+  onAuthorClick,
+}: BlogListRowProps) {
   return (
     <div className="grid grid-cols-1 gap-6 [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center py-8 border-b border-black/[0.06]">
       {/* Text — always left on desktop */}
       <div className="flex flex-col gap-3 order-2 [@media(min-width:1024px)]:order-1">
         <h3
           className="m-0 cursor-pointer hover:underline"
-          style={{ color: "#3C7CF7", fontSize: 22, fontWeight: 700, lineHeight: "100%" }}
+          style={{
+            color: "#3C7CF7",
+            fontSize: 24,
+            fontWeight: 700,
+            lineHeight: "100%",
+          }}
           onClick={onClick}
         >
           {post.title}
@@ -25,7 +34,12 @@ export default function BlogListRow({ post, onClick, onAuthorClick }: BlogListRo
         {post.excerpt && (
           <p
             className="m-0 line-clamp-5"
-            style={{ color: "#152B56", fontSize: 14, fontWeight: 500, lineHeight: "20px" }}
+            style={{
+              color: "#152B56",
+              fontSize: 16,
+              fontWeight: 500,
+              lineHeight: "20px",
+            }}
           >
             {post.excerpt}
           </p>

@@ -8,7 +8,10 @@ interface BlogFeaturedPostProps {
   onClick: () => void;
 }
 
-export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProps) {
+export default function BlogFeaturedPost({
+  post,
+  onClick,
+}: BlogFeaturedPostProps) {
   return (
     <div
       className="grid grid-cols-1 gap-6 cursor-pointer [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center"
@@ -16,7 +19,10 @@ export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProp
     >
       {/* Image */}
       {post.feature_image && (
-        <div className="w-full overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
+        <div
+          className="w-full overflow-hidden rounded-2xl"
+          style={{ aspectRatio: "4/3" }}
+        >
           <img
             src={post.feature_image}
             alt={post.feature_image_alt ?? post.title}
@@ -36,7 +42,7 @@ export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProp
               color: "#3C7CF7",
               borderRadius: 30,
               padding: "4px 12px",
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 500,
               lineHeight: "20px",
             }}
@@ -47,7 +53,12 @@ export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProp
 
         <h2
           className="m-0 leading-tight hover:underline"
-          style={{ color: "#3C7CF7", fontSize: 36, fontWeight: 700, lineHeight: "100%" }}
+          style={{
+            color: "#3C7CF7",
+            fontSize: 36,
+            fontWeight: 700,
+            lineHeight: "100%",
+          }}
         >
           {post.title}
         </h2>
@@ -55,7 +66,12 @@ export default function BlogFeaturedPost({ post, onClick }: BlogFeaturedPostProp
         {post.excerpt && (
           <p
             className="m-0 line-clamp-4"
-            style={{ color: "#152B56", fontSize: 14, fontWeight: 500, lineHeight: "20px" }}
+            style={{
+              color: "#152B56",
+              fontSize: 16,
+              fontWeight: 500,
+              lineHeight: "20px",
+            }}
           >
             {post.excerpt}
           </p>
