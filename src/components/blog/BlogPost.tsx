@@ -9,7 +9,11 @@ interface BlogPostProps {
   onAuthorClick?: (slug: string) => void;
 }
 
-export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps) {
+export default function BlogPost({
+  post,
+  onBack,
+  onAuthorClick,
+}: BlogPostProps) {
   return (
     <div className="max-w-[1200px] mx-auto px-4 md:px-10 pt-8 pb-24">
       <button
@@ -23,7 +27,12 @@ export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps)
       {/* Title */}
       <h1
         className="m-0 mb-4"
-        style={{ color: "#3C7CF7", fontSize: 36, fontWeight: 700, lineHeight: "100%" }}
+        style={{
+          color: "#3C7CF7",
+          fontSize: 36,
+          fontWeight: 700,
+          lineHeight: "100%",
+        }}
       >
         {post.title}
       </h1>
@@ -32,7 +41,12 @@ export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps)
       {post.excerpt && (
         <p
           className="m-0 mb-8"
-          style={{ color: "#152B56", fontSize: 14, fontWeight: 500, lineHeight: "20px" }}
+          style={{
+            color: "#152B56",
+            fontSize: 16,
+            fontWeight: 500,
+            lineHeight: "20px",
+          }}
         >
           {post.excerpt}
         </p>
@@ -40,7 +54,10 @@ export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps)
 
       {/* Hero image */}
       {post.feature_image && (
-        <div className="w-full overflow-hidden rounded-2xl mb-8" style={{ aspectRatio: "16/7" }}>
+        <div
+          className="w-full overflow-hidden rounded-2xl mb-8"
+          style={{ aspectRatio: "16/7" }}
+        >
           <img
             src={post.feature_image}
             alt={post.feature_image_alt ?? post.title}
@@ -63,7 +80,8 @@ export default function BlogPost({ post, onBack, onAuthorClick }: BlogPostProps)
           />
         )}
 
-        <div className="flex-1 ghost-content"
+        <div
+          className="flex-1 ghost-content"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
       </div>
