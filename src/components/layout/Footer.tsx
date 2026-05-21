@@ -82,7 +82,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/eula" className={linkClass}>
-                  Terms of Use (EULA)
+                  End User License Agreement (EULA)
                 </Link>
               </li>
             </ul>
