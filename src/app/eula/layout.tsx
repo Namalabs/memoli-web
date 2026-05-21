@@ -4,11 +4,11 @@ const SITE_URL = "https://memoli.app";
 const OG_IMAGE = "https://memoli.app/image/brand/memoli_full.webp";
 
 export const metadata: Metadata = {
-  title: "Terms of Use (EULA)",
+  title: "End User License Agreement (EULA)",
   description:
     "Terms of use for the Memoli mobile application: license, data, connectivity, updates, and contact information.",
   openGraph: {
-    title: "Terms of Use (EULA) | Memoli",
+    title: "End User License Agreement (EULA) | Memoli",
     description: "Terms governing the license to install, copy, or use the Memoli app.",
     url: `${SITE_URL}/eula`,
     siteName: "Memoli",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Terms of Use (EULA) | Memoli",
+    title: "End User License Agreement (EULA) | Memoli",
     description: "Terms governing the license to install, copy, or use the Memoli app.",
   },
   alternates: {

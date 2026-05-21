@@ -4,6 +4,15 @@ const API_URL = process.env.NEXT_PUBLIC_GHOST_API_URL ?? "http://localhost:3001"
 const API_KEY = process.env.NEXT_PUBLIC_GHOST_API_KEY ?? "";
 const BASE = `${API_URL}/ghost/api/content`;
 
+if (
+  process.env.NODE_ENV === "production" &&
+  (!process.env.NEXT_PUBLIC_GHOST_API_URL || !process.env.NEXT_PUBLIC_GHOST_API_KEY)
+) {
+  console.warn(
+    "[ghost] NEXT_PUBLIC_GHOST_API_URL or NEXT_PUBLIC_GHOST_API_KEY is missing; blog requests may fail."
+  );
+}
+
 export interface GhostTag {
   id: string;
   name: string;
@@ -50,7 +59,10 @@ const defaultParams = new URLSearchParams({
   limit: "all",
 });
 
-export async function fetchPosts(page: number = 1, limit: number = 5): Promise<{ posts: GhostPost[], totalPages: number }> {
+export async function fetchPosts(
+  page: number = 1,
+  limit: number | "all" = 5
+): Promise<{ posts: GhostPost[]; totalPages: number }> {
   const params = new URLSearchParams({
     key: API_KEY,
     include: "tags,authors",
