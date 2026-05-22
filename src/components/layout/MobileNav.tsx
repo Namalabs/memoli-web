@@ -73,7 +73,15 @@ function MenuOverlay({
               >
                 <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
                   <img
-                    src={link.href === "/" ? "/image/icons/home.svg" : "/image/icons/about.svg"}
+                    src={
+                      link.href === "/"
+                        ? "/image/icons/home.svg"
+                        : link.href === "/about"
+                          ? "/image/icons/about.svg"
+                          : link.href === "/blog"
+                            ? "/image/icons/blog.svg"
+                            : "/image/icons/about.svg"
+                    }
                     alt=""
                     className="w-5 h-5"
                     aria-hidden

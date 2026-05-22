@@ -1,12 +1,12 @@
 import { TeamMember, Testimonial, Collaborator } from "@memoli/types";
 
-export const APP_STORE_URL = "https://testflight.apple.com/join/5sRkNqY1";
+export const APP_STORE_URL = "https://apps.apple.com/id/app/memoli/id6760237935?l=id";
 
 // Navigation links
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Blog", href: "/blog"},
   { label: "About Us", href: "/about" },
+  { label: "Blog", href: "/blog" },
 ];
 
 // Social links

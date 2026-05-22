@@ -1,8 +1,8 @@
 # Deploy Next.js static export to Cloudflare Pages
 # Runs when you push a tag matching memoli-v* (e.g. memoli-v1.0).
 #
-# 3 Required Secrets (Cloudflare) + 3 Required Variables (client-side) + 1 Optional Variable (server-side)
-#   Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_PAGES_PROJECT_NAME
+# 5 Required Secrets (Cloudflare + Ghost) + 3 Required Variables (client-side) + 1 Optional Variable (server-side)
+#   Secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_PAGES_PROJECT_NAME, NEXT_PUBLIC_GHOST_API_URL, NEXT_PUBLIC_GHOST_API_KEY
 #   Variables: NEXT_PUBLIC_TURNSTILE_SITE_KEY, NEXT_PUBLIC_N8N_BETA_WEBHOOK_URL, NEXT_PUBLIC_BETA_SIGNUP_API_KEY
 #   Optional Variable: TURNSTILE_SECRET_KEY (for captcha verification)
 
@@ -42,6 +42,8 @@ jobs:
           [ -z "${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}" ] && missing="$missing NEXT_PUBLIC_TURNSTILE_SITE_KEY"
           [ -z "${{ vars.NEXT_PUBLIC_N8N_BETA_WEBHOOK_URL }}" ] && missing="$missing NEXT_PUBLIC_N8N_BETA_WEBHOOK_URL"
           [ -z "${{ vars.NEXT_PUBLIC_BETA_SIGNUP_API_KEY }}" ] && missing="$missing NEXT_PUBLIC_BETA_SIGNUP_API_KEY"
+          [ -z "${{ secrets.NEXT_PUBLIC_GHOST_API_URL }}" ] && missing="$missing NEXT_PUBLIC_GHOST_API_URL"
+          [ -z "${{ secrets.NEXT_PUBLIC_GHOST_API_KEY }}" ] && missing="$missing NEXT_PUBLIC_GHOST_API_KEY"
           if [ -n "$missing" ]; then
             echo "::error::Missing required config:$missing"
             echo "Secrets → CLOUDFLARE_* | Variables → NEXT_PUBLIC_* (Settings → Secrets and variables → Actions)"

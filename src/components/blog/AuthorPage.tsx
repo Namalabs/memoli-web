@@ -16,7 +16,7 @@ const POSTS_PER_PAGE = 3;
 
 export default function AuthorPage({ authorSlug, onBack, onPostClick }: AuthorPageProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { posts, loading, error } = usePosts();
+  const { posts, loading, error } = usePosts(1, "all");
 
   const authorPosts = useMemo(
     () => posts.filter((p) => p.authors?.some((a) => a.slug === authorSlug)),

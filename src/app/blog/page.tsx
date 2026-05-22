@@ -30,6 +30,13 @@ export default function BlogPage() {
     return () => window.removeEventListener("popstate", handlePop);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = parseInt(params.get("page") ?? "1", 10);
+    const next = isNaN(page) || page < 1 ? 1 : page;
+    setCurrentPage((prev) => (prev !== next ? next : prev));
+  }, []);
+
   const {
     posts,
     loading: listLoading,

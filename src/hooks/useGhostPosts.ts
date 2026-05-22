@@ -30,7 +30,7 @@ function asyncReducer<T>(
 
 const initialState = { data: null, loading: true, error: null };
 
-export function usePosts(page: number = 1) {
+export function usePosts(page: number = 1, limit: number | "all" = 4) {
   const [state, dispatch] = useReducer(
     asyncReducer<{ posts: GhostPost[]; totalPages: number }>,
     initialState
@@ -40,7 +40,7 @@ export function usePosts(page: number = 1) {
     let cancelled = false;
     dispatch({ type: "loading" });
 
-    fetchPosts(page, 4)
+    fetchPosts(page, limit)
       .then((data) => {
         if (!cancelled) dispatch({ type: "success", payload: data });
       })
@@ -52,7 +52,7 @@ export function usePosts(page: number = 1) {
     return () => {
       cancelled = true;
     };
-  }, [page]);
+  }, [page, limit]);
 
   return {
     posts: state.data?.posts ?? [],
