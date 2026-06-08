@@ -1,9 +1,9 @@
 "use client";
 
-import { GhostAuthor } from "@memoli/utils/ghost";
+import type { Author } from "@memoli/utils/markdown-client";
 
 interface AuthorCardProps {
-  author: GhostAuthor;
+  author: Author;
   date: string;
   onAuthorClick?: () => void;
 }
@@ -35,16 +35,9 @@ export default function AuthorCard({ author, date, onAuthorClick }: AuthorCardPr
       onClick={onAuthorClick}
     >
       {/* Avatar */}
-      {author.profile_image ? (
-        <img
-          src={author.profile_image}
-          alt={author.name}
-          className="object-cover"
-          style={{ width: 50, height: 50, borderRadius: "50%" }}
-        />
-      ) : (
-        <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#D9D9D9" }} />
-      )}
+      <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ fontSize: 24, color: "#666" }}>👤</span>
+      </div>
 
       <p
         className="m-0 text-center"

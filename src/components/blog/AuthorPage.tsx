@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { usePosts } from "@memoli/hooks/useGhostPosts";
+import { usePosts } from "@memoli/hooks/useMarkdownPosts";
 import BlogDivider from "@memoli/components/blog/BlogDivider";
 import BlogListRow from "@memoli/components/blog/BlogListRow";
 import BlogPagination from "@memoli/components/blog/BlogPagination";
@@ -61,15 +61,9 @@ export default function AuthorPage({ authorSlug, onBack, onPostClick }: AuthorPa
 
       {/* Author header */}
       <div className="flex flex-col items-center gap-3 mb-10 [@media(min-width:1024px)]:items-start">
-        {author?.profile_image ? (
-          <img
-            src={author.profile_image}
-            alt={author.name}
-            style={{ width: 50, height: 50, borderRadius: "50%", objectFit: "cover" }}
-          />
-        ) : (
-          <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#D9D9D9" }} />
-        )}
+        <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <span style={{ fontSize: 24, color: "#666" }}>👤</span>
+        </div>
         <h1
           className="m-0"
           style={{ color: "#152B56", fontSize: 36, fontWeight: 700, lineHeight: "100%" }}
@@ -90,7 +84,6 @@ export default function AuthorPage({ authorSlug, onBack, onPostClick }: AuthorPa
         <BlogListRow
           key={post.id}
           post={post}
-          onClick={() => onPostClick(post.slug)}
         />
       ))}
 

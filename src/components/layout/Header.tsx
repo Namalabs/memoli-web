@@ -77,7 +77,7 @@ export default function Header() {
     </header>
       {/* Spacer: same padding-top as header so scroll keeps consistent top spacing */}
       <div
-        className="w-full shrink-0 pt-2 pb-2 md:pt-3 md:pb-3 lg:pt-4 lg:pb-4 px-4 md:px-6 lg:px-8"
+        className="w-full shrink-0 h-[126px] pt-2 pb-2 md:pt-3 md:pb-3 lg:pt-4 lg:pb-4 px-4 md:px-6 lg:px-8"
         aria-hidden="true"
       >
         <div className="mx-auto max-w-[1200px] h-10 md:h-12 lg:h-14 rounded-2xl lg:rounded-3xl" />

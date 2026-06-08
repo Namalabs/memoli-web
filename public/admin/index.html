@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Memoli Blog CMS</title>
+    <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" />
+    <script type="module">
+      // Manual initialization of Decap CMS with local Git backend
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </head>
+  <body>
+    <script>
+      // Wait for CMS to load, then initialize with local config
+      document.addEventListener('DOMContentLoaded', async () => {
+        // Give CMS script time to load
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        if (window.CMS) {
+          try {
+            // Load config from config.yml
+            const configRes = await fetch('/admin/config.yml');
+            if (!configRes.ok) throw new Error('Failed to load config.yml');
+            const configText = await configRes.text();
+            
+            // Parse YAML (simple parser for basic YAML)
+            const config = parseYAML(configText);
+            
+            // Initialize CMS with loaded config
+            CMS.init({ config });
+            console.log('✅ Decap CMS initialized with local config');
+          } catch (err) {
+            console.error('❌ Failed to initialize CMS:', err);
+            // Fallback: Try with inline config
+            initializeCMSFallback();
+          }
+        }
+      });
+      
+      // Fallback inline CMS configuration
+      function initializeCMSFallback() {
+        if (window.CMS) {
+          CMS.init({
+            config: {
+              load_config_file: false,
+              backend: {
+                name: 'local-git',
+                branch: 'master',
+              },
+              media_folder: 'public/image/blog',
+              public_folder: '/image/blog',
+              collections: [
+                {
+                  name: 'blog',
+                  label: 'Blog Posts',
+                  folder: 'src/content/blog',
+                  create: true,
+                  slug: '{{slug}}',
+                  extension: 'md',
+                  format: 'frontmatter',
+                  fields: [
+                    { label: 'Title', name: 'title', widget: 'string', required: true },
+                    { label: 'Slug', name: 'slug', widget: 'string', required: true },
+                    { label: 'Custom URL Path', name: 'customPath', widget: 'string', required: false },
+                    { label: 'Published Date', name: 'published', widget: 'datetime', required: true },
+                    { label: 'Updated Date', name: 'updated', widget: 'datetime', required: true },
+                    { label: 'Featured', name: 'featured', widget: 'boolean', default: false },
+                    { label: 'Featured Image', name: 'featuredImage', widget: 'image', required: false },
+                    { label: 'Featured Image Alt', name: 'featuredImageAlt', widget: 'string', required: false },
+                    { label: 'Excerpt', name: 'excerpt', widget: 'text', required: true },
+                    { label: 'Content', name: 'body', widget: 'markdown', required: true },
+                  ],
+                },
+              ],
+            },
+          });
+          console.log('✅ CMS initialized with fallback inline config');
+        }
+      }
+      
+      // Simple YAML parser (handles basic config.yml structure)
+      function parseYAML(text) {
+        const lines = text.split('\n');
+        const config = { backend: {}, collections: [] };
+        let inBackend = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line || line.startsWith('#')) continue;
+          
+          if (line === 'backend:') {
+            inBackend = true;
+            continue;
+          }
+          if (line === 'collections:') {
+            inBackend = false;
+            break;
+          }
+          
+          if (inBackend) {
+            const [key, value] = line.split(':').map(s => s.trim());
+            if (key && value) config.backend[key] = value;
+          }
+        }
+        
+        return config
+        if (window.CMS) {
+          try {
+            // Load config from config.yml
+            const configRes = await fetch('/admin/config.yml');
+            if (!configRes.ok) throw new Error('Failed to load config.yml');
+            const configText = await configRes.text();
+            
+            // Parse YAML (simple parser for basic YAML)
+            const config = parseYAML(configText);
+            
+            // Initialize CMS with loaded config
+            CMS.init({ config });
+            console.log('✅ Decap CMS initialized with local config');
+          } catch (err) {
+            console.error('❌ Failed to initialize CMS:', err);
+            // Fallback: Try with inline config
+            initializeCMSFallback();
+          }
+        }
+      });
+      
+      // Fallback inline CMS configuration
+      function initializeCMSFallback() {
+        if (window.CMS) {
+          CMS.init({
+            config: {
+              load_config_file: false,
+              backend: {
+                name: 'local-git',
+                branch: 'master',
+              },
+              media_folder: 'public/image/blog',
+              public_folder: '/image/blog',
+              collections: [
+                {
+                  name: 'blog',
+                  label: 'Blog Posts',
+                  folder: 'src/content/blog',
+                  create: true,
+                  slug: '{{slug}}',
+                  extension: 'md',
+                  format: 'frontmatter',
+                  fields: [
+                    { label: 'Title', name: 'title', widget: 'string', required: true },
+                    { label: 'Slug', name: 'slug', widget: 'string', required: true },
+                    { label: 'Custom URL Path', name: 'customPath', widget: 'string', required: false },
+                    { label: 'Published Date', name: 'published', widget: 'datetime', required: true },
+                    { label: 'Updated Date', name: 'updated', widget: 'datetime', required: true },
+                    { label: 'Featured', name: 'featured', widget: 'boolean', default: false },
+                    { label: 'Featured Image', name: 'featuredImage', widget: 'image', required: false },
+                    { label: 'Featured Image Alt', name: 'featuredImageAlt', widget: 'string', required: false },
+                    { label: 'Excerpt', name: 'excerpt', widget: 'text', required: true },
+                    { label: 'Content', name: 'body', widget: 'markdown', required: true },
+                  ],
+                },
+              ],
+            },
+          });
+          console.log('✅ CMS initialized with fallback inline config');
+        }
+      }
+      
+      // Simple YAML parser (handles basic config.yml structure)
+      function parseYAML(text) {
+        const lines = text.split('\n');
+        const config = { backend: {}, collections: [] };
+        let inBackend = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line || line.startsWith('#')) continue;
+          
+          if (line === 'backend:') {
+            inBackend = true;
+            continue;
+          }
+          if (line === 'collections:') {
+            inBackend = false;
+            break;
+          }
+          
+          if (inBackend) {
+            const [key, value] = line.split(':').map(s => s.trim());
+            if (key && value) config.backend[key] = value;
+          }
+        }
+        
+        return config;
+      }
+    </script>
+  </body>
+</html>

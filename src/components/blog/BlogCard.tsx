@@ -1,15 +1,15 @@
 // src/components/blog/BlogCard.tsx
 "use client";
 
-import { GhostPost } from "@memoli/utils/ghost";
+import type { MarkdownPost } from "@memoli/utils/markdown-client";
 
 interface BlogCardProps {
-  post: GhostPost;
+  post: MarkdownPost;
   onClick: () => void;
 }
 
 export default function BlogCard({ post, onClick }: BlogCardProps) {
-  const formattedDate = new Date(post.published_at).toLocaleDateString(
+  const formattedDate = new Date(post.date).toLocaleDateString(
     "en-US",
     { year: "numeric", month: "long", day: "numeric" }
   );
@@ -53,13 +53,6 @@ export default function BlogCard({ post, onClick }: BlogCardProps) {
         <div className="flex items-center justify-between mt-3">
           {post.authors?.[0] && (
             <div className="flex items-center gap-2">
-              {post.authors[0].profile_image && (
-                <img
-                  className="w-6 h-6 rounded-full object-cover"
-                  src={post.authors[0].profile_image}
-                  alt={post.authors[0].name}
-                />
-              )}
               <span className="text-[0.8rem] text-gray-600 font-medium">
                 {post.authors[0].name}
               </span>

@@ -1,0 +1,60 @@
+backend:
+  name: test-repo
+
+media_folder: public/upload
+public_folder: /upload
+
+collections:
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        required: true
+      - label: Slug
+        name: slug
+        widget: string
+        required: true
+      - label: Author
+        name: author
+        widget: string
+        required: false
+      - label: Published
+        name: published
+        widget: datetime
+        required: true
+      - label: Updated
+        name: updated
+        widget: datetime
+        required: true
+      - label: Featured
+        name: featured
+        widget: boolean
+        default: false
+        required: false
+      - label: Featured Image
+        name: featuredImage
+        widget: image
+        required: false
+      - label: Featured Image Alt
+        name: featuredImageAlt
+        widget: string
+        required: false
+      - label: Excerpt
+        name: excerpt
+        widget: text
+        required: true
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+      - label: Body
+        name: body
+        widget: markdown
+        required: true

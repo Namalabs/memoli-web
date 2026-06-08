@@ -1,10 +1,10 @@
 "use client";
 
-import { GhostPost } from "@memoli/utils/ghost";
+import type { MarkdownPost } from "@memoli/utils/markdown-client";
 import AuthorCard from "@memoli/components/blog/AuthorCard";
 
 interface BlogPostProps {
-  post: GhostPost;
+  post: MarkdownPost;
   onBack: () => void;
   onAuthorClick?: (slug: string) => void;
 }
@@ -68,13 +68,13 @@ export default function BlogPost({
 
       {/* Two-col: author card left, content right */}
       <div className="flex flex-col gap-8 [@media(min-width:1024px)]:flex-row [@media(min-width:1024px)]:gap-12 [@media(min-width:1024px)]:items-start">
-        {post.authors?.[0] && (
+        {post.author && (
           <AuthorCard
-            author={post.authors[0]}
-            date={post.published_at}
+            author={post.author}
+            date={post.date}
             onAuthorClick={
               onAuthorClick
-                ? () => onAuthorClick(post.authors[0].slug)
+                ? () => onAuthorClick(post.author!.slug)
                 : undefined
             }
           />
