@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Header from "@memoli/components/layout/Header";
 import Footer from "@memoli/components/layout/Footer";
 import { BetaSignupProvider, useBetaSignup } from "@memoli/contexts/BetaSignupContext";
@@ -66,7 +67,9 @@ export default function RootLayout({
         <BetaSignupProvider>
           <Header />
           {children}
-          <Footer />
+          <Suspense fallback={<div />}>
+            <Footer />
+          </Suspense>
           <BetaSignupPopupGate />
         </BetaSignupProvider>
       </body>

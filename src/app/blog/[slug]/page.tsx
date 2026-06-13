@@ -107,15 +107,49 @@ export default function BlogPostPage({
     );
   }
 
+  // Generate JSON-LD structured data for search engines
+  const customPath = post.customPath || `/blog/${post.slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.seo?.description || post.excerpt || "",
+    "image": post.feature_image || "https://memoli.app/image/brand/memoli_full.webp",
+    "datePublished": post.published_at || post.date,
+    "dateModified": post.published_at || post.date,
+    "author": post.author ? {
+      "@type": "Person",
+      "name": post.author.name,
+    } : undefined,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Memoli",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://memoli.app/image/brand/memoli_full.webp",
+      },
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://memoli.app${customPath}`,
+    },
+  };
+
   return (
-    <BlogPost
-      post={post}
-      onBack={() => {
-        window.location.href = "/blog";
-      }}
-      onAuthorClick={(authorSlug) => {
-        window.location.href = `/blog?author=${authorSlug}`;
-      }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPost
+        post={post}
+        onBack={() => {
+          window.location.href = "/blog";
+        }}
+        onAuthorClick={(authorSlug) => {
+          window.location.href = `/blog?author=${authorSlug}`;
+        }}
+      />
+    </>
   );
 }

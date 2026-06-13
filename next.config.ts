@@ -11,8 +11,9 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Remove trailing slashes for cleaner URLs
-  trailingSlash: false,
+  // Enable trailing slashes for proper static file serving
+  // This creates index.html in subdirectories instead of flat .html files
+  trailingSlash: true,
   // Generate static pages with proper extensions
   pageExtensions: ["ts", "tsx", "js", "jsx"],
 };
