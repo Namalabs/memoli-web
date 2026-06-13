@@ -2,13 +2,22 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { SOCIAL_LINKS, APP_STORE_URL } from "@memoli/utils/constants";
 import { useFadeIn, useStaggerChildren } from "@memoli/hooks/useGSAP";
 
 export default function Footer() {
+  const searchParams = useSearchParams();
   const currentYear = new Date().getFullYear();
-  const gridRef = useStaggerChildren({ y: 20, duration: 0.6, stagger: 0.1, start: "top bottom" });
-  const copyrightRef = useFadeIn({ y: 10, duration: 0.5, start: "top bottom" });
+  const pathname = usePathname();
+  const isBlogPage = pathname.includes("blog");
+  // const isBlogPage = pathname === "/blog" || pathname.startsWith("blog");
+
+  // Use page query parameter as reset trigger for pagination changes
+  const pageReset = useMemo(() => searchParams.get("page"), [searchParams]);
+  const gridRef = useStaggerChildren({ y: 20, duration: 0.6, stagger: 0.1, start: "top bottom", reset: pageReset });
+  const copyrightRef = useFadeIn({ y: 10, duration: 0.5, start: "top bottom", reset: pageReset });
 
   const linkClass =
     "text-sm text-memoli-dark hover:text-memoli-dark/90 transition-colors focus:outline-none focus:ring-2 focus:ring-memoli-primary focus:ring-offset-2 focus:ring-offset-memoli-light rounded px-1 py-0.5";
@@ -33,7 +42,7 @@ export default function Footer() {
         </div>
 
         {/* Footer Grid - single column on mobile, 3 columns on md+ */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 mb-8">
+        <div ref={isBlogPage ? undefined : gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12 mb-8">
           {/* Column 1: Memoli - image asset */}
           <div>
             <Link href="/" className="hidden md:inline-block mb-3" aria-label="Memoli home">
@@ -120,7 +129,7 @@ export default function Footer() {
 
         {/* Copyright - very small, dark blue/black; suppressHydrationWarning for year */}
         <div
-          ref={copyrightRef}
+          ref={isBlogPage ? undefined : copyrightRef}
           className="text-center text-memoli-dark/80 text-xs"
           suppressHydrationWarning
         >

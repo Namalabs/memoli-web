@@ -1,0 +1,16 @@
+[
+  {
+    "name": "John Doe",
+    "bio": "Lead developer and technical writer",
+    "avatar": "/upload/john-doe.jpg",
+    "email": "john@memoli.com",
+    "twitter": "@johndoe"
+  },
+  {
+    "name": "Memoli",
+    "bio": "Author at Memoli",
+    "avatar": "/upload/default-avatar.png",
+    "email": "",
+    "twitter": ""
+  }
+]

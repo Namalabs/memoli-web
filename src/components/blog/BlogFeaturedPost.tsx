@@ -3,19 +3,23 @@
 import Link from "next/link";
 import type { MarkdownPost } from "@memoli/utils/markdown-client";
 import BlogMeta from "@memoli/components/blog/BlogMeta";
+import { useFadeIn } from "@memoli/hooks/useGSAP";
 
 interface BlogFeaturedPostProps {
   post: MarkdownPost;
+  contentReset?: any;
 }
 
 export default function BlogFeaturedPost({
   post,
+  contentReset,
 }: BlogFeaturedPostProps) {
   const href = post.customPath || `/blog/${post.slug}`;
-  
+  const fadeRef = useFadeIn({ reset: contentReset });
+
   return (
     <Link href={href}>
-      <div className="grid grid-cols-1 gap-6 cursor-pointer hover:opacity-80 transition-opacity [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center">
+      <div ref={fadeRef} className="grid grid-cols-1 gap-6 cursor-pointer hover:opacity-80 transition-opacity [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center">
         {/* Image */}
         {post.feature_image && (
           <div

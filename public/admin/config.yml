@@ -1,0 +1,118 @@
+local_backend: true
+
+backend:
+  name: proxy
+  proxy_url: http://localhost:8081/api/v1
+  branch: master
+
+media_folder: upload
+public_folder: /upload
+
+collections:
+  # Blog Posts
+  - name: blog
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: src/content/blog
+    create: true
+    slug: "{{fields.slug}}"
+    extension: md
+    summary: "{{title}} ({{published}})"
+
+    fields:
+      - name: title
+        label: Title
+        widget: string
+        required: true
+
+      - name: slug
+        label: Slug
+        widget: string
+        required: true
+        pattern:
+          - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          - "Slug must be lowercase with hyphens only"
+
+      - name: author
+        label: Author
+        widget: relation
+        required: true
+        collection: authors
+        search_fields:
+          - authors.*.name
+        display_fields:
+          - authors.*.name
+        value_field: authors.*.id
+
+      - name: published
+        label: Published Date
+        widget: datetime
+        required: true
+        format: "YYYY-MM-DD"
+        time_format: false
+
+      - name: updated
+        label: Updated Date
+        widget: datetime
+        required: true
+        format: "YYYY-MM-DD"
+        time_format: false
+
+      - name: excerpt
+        label: Excerpt
+        widget: text
+        required: true
+
+      - name: tags
+        label: Tags
+        widget: relation
+        required: false
+        collection: tags
+        search_fields:
+          - tags.*.name
+        display_fields:
+          - tags.*.name
+        value_field: tags.*.slug
+        multiple: true
+
+      - name: featured
+        label: Featured Post
+        widget: boolean
+        default: false
+        required: false
+
+      - name: featuredImage
+        label: Featured Image URL
+        widget: string
+        required: false
+
+      - name: featuredImageAlt
+        label: Featured Image Alt Text
+        widget: string
+        required: false
+
+      - name: body
+        label: Content
+        widget: markdown
+        required: true
+
+  # Authors
+  - name: authors
+    label: Authors
+    label_singular: Author
+    folder: src/content/authors
+    create: true
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: slug, label: Slug, widget: string }
+      - { name: bio, label: Bio, widget: text }
+
+  # Tags
+  - name: tags
+    label: Tags
+    label_singular: Tag
+    folder: src/content/tags
+    create: true
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: slug, label: Slug, widget: string }

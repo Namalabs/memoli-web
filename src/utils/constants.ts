@@ -2,6 +2,9 @@ import { TeamMember, Testimonial, Collaborator } from "@memoli/types";
 
 export const APP_STORE_URL = "https://apps.apple.com/id/app/memoli/id6760237935?l=id";
 
+// Blog pagination
+export const BLOG_PAGINATION_LIMIT = 5;
+
 // Navigation links
 export const NAV_LINKS = [
   { label: "Home", href: "/" },

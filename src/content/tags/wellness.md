@@ -1,0 +1,4 @@
+---
+name: Wellness
+slug: wellness
+---

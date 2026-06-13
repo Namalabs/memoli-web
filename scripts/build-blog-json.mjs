@@ -74,18 +74,42 @@ function readAllPosts() {
 }
 
 function readAllAuthors() {
-  const authorsFile = path.join(BLOG_DIR, '..', 'authors.json');
-  if (!fs.existsSync(authorsFile)) return [];
-  const authorsData = JSON.parse(fs.readFileSync(authorsFile, 'utf-8'));
-  return Object.entries(authorsData).map(([id, data]) => ({
-    id,
-    ...data,
-    slug: id,
-  }));
+  const authorsDir = path.join(BLOG_DIR, '..', 'authors');
+  if (!fs.existsSync(authorsDir)) return [];
+  
+  const files = fs.readdirSync(authorsDir).filter((f) => f.endsWith('.md'));
+  return files.map((f) => {
+    const slug = f.replace('.md', '');
+    const content = fs.readFileSync(path.join(authorsDir, f), 'utf-8');
+    const { data } = matter(content);
+    return {
+      id: data.slug || slug,
+      slug: data.slug || slug,
+      name: data.name || 'Unknown',
+      bio: data.bio || '',
+    };
+  });
 }
 
 function readAllTags(posts) {
+  const tagsDir = path.join(BLOG_DIR, '..', 'tags');
   const tagMap = new Map();
+  
+  // First, add tags from folder collection
+  if (fs.existsSync(tagsDir)) {
+    const files = fs.readdirSync(tagsDir).filter((f) => f.endsWith('.md'));
+    files.forEach((f) => {
+      const slug = f.replace('.md', '');
+      const content = fs.readFileSync(path.join(tagsDir, f), 'utf-8');
+      const { data } = matter(content);
+      tagMap.set(data.slug || slug, {
+        name: data.name || 'Unknown',
+        slug: data.slug || slug,
+      });
+    });
+  }
+  
+  // Then, add any tags from posts that aren't already in the map
   posts.forEach((post) => {
     post.tags.forEach((tag) => {
       if (!tagMap.has(tag.slug)) {
@@ -93,6 +117,7 @@ function readAllTags(posts) {
       }
     });
   });
+  
   return Array.from(tagMap.values());
 }
 

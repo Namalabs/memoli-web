@@ -6,7 +6,7 @@ published: "2026-04-27"
 updated: "2026-04-27"
 excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a arcu mi. Cras viverra dui vel augue ornare hendrerit. Curabitur malesuada arcu et rutrum faucibus..."
 tags: ["self-care", "wellness"]
-featured: false
+featured: true
 featuredImage: "/image/blog/mindfulness-in-self-care-rituals-featured.jpg"
 ---
 

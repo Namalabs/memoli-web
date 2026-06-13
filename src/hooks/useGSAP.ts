@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
  * Fade-in + slide-up animation triggered on scroll.
  * Attach the returned ref to a section wrapper.
  * Use start: "top bottom" so the animation runs when the element enters the viewport (reliable on short pages).
+ * @param reset - Optional dependency (e.g. page number, data ID) to trigger re-animation when content changes
  */
 export function useFadeIn(options?: {
   y?: number;
@@ -18,9 +19,10 @@ export function useFadeIn(options?: {
   start?: string;
   ease?: string;
   enabled?: boolean;
+  reset?: any;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { y = 40, duration = 0.8, delay = 0, start = "top 85%", ease = "power2.out", enabled = true } = options ?? {};
+  const { y = 40, duration = 0.8, delay = 0, start = "top 85%", ease = "power2.out", enabled = true, reset } = options ?? {};
 
   useEffect(() => {
     const el = ref.current;
@@ -66,7 +68,7 @@ export function useFadeIn(options?: {
       cancelAnimationFrame(raf);
       clearTimeout(t);
     };
-  }, [y, duration, delay, start, ease, enabled]);
+  }, [y, duration, delay, start, ease, enabled, reset]);
 
   return ref;
 }
@@ -75,6 +77,7 @@ export function useFadeIn(options?: {
  * Stagger children of the container on scroll.
  * Each direct child (matching `childSelector`) fades in one after another.
  * Use start: "top bottom" so the animation runs when the element enters the viewport (reliable on short pages).
+ * @param reset - Optional dependency (e.g. page number, data ID) to trigger re-animation when content changes
  */
 export function useStaggerChildren(options?: {
   y?: number;
@@ -83,6 +86,7 @@ export function useStaggerChildren(options?: {
   childSelector?: string;
   start?: string;
   enabled?: boolean;
+  reset?: any;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const {
@@ -92,6 +96,7 @@ export function useStaggerChildren(options?: {
     childSelector = ":scope > *",
     start = "top 85%",
     enabled = true,
+    reset,
   } = options ?? {};
 
   useEffect(() => {
@@ -141,20 +146,21 @@ export function useStaggerChildren(options?: {
       cancelAnimationFrame(raf);
       clearTimeout(t);
     };
-  }, [y, duration, stagger, childSelector, start, enabled]);
+  }, [y, duration, stagger, childSelector, start, enabled, reset]);
 
   return ref;
 }
 
 /**
  * Slide-in from left or right on scroll.
+ * @param reset - Optional dependency (e.g. page number, data ID) to trigger re-animation when content changes
  */
 export function useSlideIn(
   direction: "left" | "right",
-  options?: { distance?: number; duration?: number; delay?: number }
+  options?: { distance?: number; duration?: number; delay?: number; reset?: any }
 ) {
   const ref = useRef<HTMLDivElement>(null);
-  const { distance = 60, duration = 0.8, delay = 0 } = options ?? {};
+  const { distance = 60, duration = 0.8, delay = 0, reset } = options ?? {};
 
   useEffect(() => {
     const el = ref.current;
@@ -179,7 +185,7 @@ export function useSlideIn(
     });
 
     return () => trigger.kill();
-  }, [direction, distance, duration, delay]);
+  }, [direction, distance, duration, delay, reset]);
 
   return ref;
 }

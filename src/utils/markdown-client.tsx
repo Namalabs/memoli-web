@@ -44,6 +44,7 @@ export interface MarkdownPost {
   readingTime: number;
   seo?: SEO;
   customPath?: string; // Custom URL path (e.g., /blog/my-custom-url)
+  featured?: boolean; // Featured post flag
 }
 
 export interface PaginationResult {

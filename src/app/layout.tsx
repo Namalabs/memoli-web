@@ -20,7 +20,7 @@ export default function RootLayout({
   const ogImage = "https://memoli.app/image/brand/memoli_full.webp";
 
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,153 +1,58 @@
 "use client";
 
+/**
+ * Admin Page - Redirect to Decap CMS
+ *
+ * This page redirects to the Express backend admin panel at http://localhost:8081/admin
+ * which hosts the complete Decap CMS interface with:
+ *
+ * ✓ Proxy backend for collections (blog, authors, tags)
+ * ✓ Static YAML configuration (public/admin/config.yml)
+ * ✓ Deployment management modal
+ * ✓ Build history and logs
+ * ✓ Git automation integration
+ */
+
 import { useEffect } from "react";
 
 export default function AdminPage() {
-  // Hide parent layout immediately
   useEffect(() => {
-    const style = document.createElement("style");
-    style.textContent = `
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-      }
-      main, header, nav, footer, #__next > * > :not(#admin-container) {
-        display: none !important;
-      }
-      #__next {
-        width: 100vw !important;
-        height: 100vh !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-    `;
-    document.head.appendChild(style);
-    return () => style.remove();
-  }, []);
-
-  useEffect(() => {
-    initializeCMS();
-
-    async function initializeCMS() {
-      // Give CMS script time to load
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      if ((window as any).CMS) {
-        try {
-          console.log("Initializing Decap CMS...");
-          (window as any).CMS.init({
-            config: {
-              load_config_file: false,
-              backend: {
-                name: "test-repo",
-              },
-              media_folder: "public/upload",
-              public_folder: "/upload",
-              collections: [
-                {
-                  name: "blog",
-                  label: "Blog Posts",
-                  folder: "src/content/blog",
-                  create: true,
-                  slug: "{{slug}}",
-                  extension: "md",
-                  format: "frontmatter",
-                  fields: [
-                    {
-                      label: "Title",
-                      name: "title",
-                      widget: "string",
-                    },
-                    {
-                      label: "Slug",
-                      name: "slug",
-                      widget: "string",
-                    },
-                    {
-                      label: "Author",
-                      name: "author",
-                      widget: "string",
-                    },
-                    {
-                      label: "Published",
-                      name: "published",
-                      widget: "datetime",
-                    },
-                    {
-                      label: "Updated",
-                      name: "updated",
-                      widget: "datetime",
-                    },
-                    {
-                      label: "Featured",
-                      name: "featured",
-                      widget: "boolean",
-                      default: false,
-                    },
-                    {
-                      label: "Featured Image",
-                      name: "featuredImage",
-                      widget: "image",
-                      required: false,
-                    },
-                    {
-                      label: "Featured Image Alt",
-                      name: "featuredImageAlt",
-                      widget: "string",
-                      required: false,
-                    },
-                    {
-                      label: "Excerpt",
-                      name: "excerpt",
-                      widget: "text",
-                    },
-                    {
-                      label: "Tags",
-                      name: "tags",
-                      widget: "list",
-                      required: false,
-                    },
-                    {
-                      label: "Body",
-                      name: "body",
-                      widget: "markdown",
-                    },
-                  ],
-                },
-              ],
-            },
-          });
-          console.log("✅ Decap CMS initialized successfully!");
-        } catch (err) {
-          console.error("❌ Failed to initialize CMS:", err);
-        }
-      } else {
-        console.error(
-          "❌ CMS object not found. Scripts may not have loaded correctly."
-        );
-      }
-    }
+    // Redirect to Express backend admin panel
+    window.location.href = "http://localhost:8081/admin";
   }, []);
 
   return (
     <div
-      id="admin-container"
       style={{
         width: "100vw",
         height: "100vh",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
         margin: 0,
         padding: 0,
-        overflow: "hidden",
-        zIndex: 9999,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#f8fafc",
+        fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
-      <div id="netlify-cms" style={{ width: "100%", height: "100%" }} />
+      <div style={{ textAlign: "center", color: "#475569" }}>
+        <div style={{ fontSize: "18px", fontWeight: "600", marginBottom: "8px" }}>
+          Redirecting to Decap CMS...
+        </div>
+        <div style={{ fontSize: "14px", marginBottom: "16px" }}>
+          If not automatically redirected, click the link below:
+        </div>
+        <a
+          href="http://localhost:8081/admin"
+          style={{
+            color: "#37b6df",
+            textDecoration: "none",
+            fontWeight: "500",
+          }}
+        >
+          Open Decap CMS (http://localhost:8081/admin)
+        </a>
+      </div>
     </div>
   );
 }

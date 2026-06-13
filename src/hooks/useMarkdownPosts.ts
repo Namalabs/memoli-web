@@ -3,6 +3,7 @@
 import { useReducer, useEffect } from 'react';
 import type { MarkdownPost, PaginationResult } from '@memoli/utils/markdown-client';
 import { getPaginatedPosts, readPostBySlug } from '@memoli/utils/markdown-client';
+import { BLOG_PAGINATION_LIMIT } from '@memoli/utils/constants';
 
 interface AsyncState<T> {
   data: T | null;
@@ -25,7 +26,7 @@ function asyncReducer<T>(state: AsyncState<T>, action: AsyncAction<T>): AsyncSta
 
 const initialState = { data: null, loading: true, error: null };
 
-export function usePosts(page: number = 1, limit: number | 'all' = 4) {
+export function usePosts(page: number = 1, limit: number | 'all' = BLOG_PAGINATION_LIMIT) {
   const [state, dispatch] = useReducer(asyncReducer<PaginationResult>, initialState);
 
   useEffect(() => {

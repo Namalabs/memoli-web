@@ -19,7 +19,7 @@ export default function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="w-8 h-8 rounded-full flex items-center justify-center border transition-colors disabled:opacity-30"
+        className="w-8 h-8 rounded-full cursor-pointer flex items-center justify-center border transition-colors disabled:opacity-30"
         style={{ borderColor: "#E2EBFE", color: "#3C7CF7" }}
       >
         ‹
@@ -29,7 +29,7 @@ export default function BlogPagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors"
+          className="w-8 h-8 rounded-full cursor-pointer flex items-center justify-center text-sm font-medium transition-colors"
           style={{
             background: currentPage === page ? "#E2EBFE" : "transparent",
             color: currentPage === page ? "#3C7CF7" : "#999898",
@@ -45,7 +45,7 @@ export default function BlogPagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="w-8 h-8 rounded-full flex items-center justify-center border transition-colors disabled:opacity-30"
+        className="w-8 h-8 rounded-full cursor-pointer flex items-center justify-center border transition-colors disabled:opacity-30"
         style={{ borderColor: "#E2EBFE", color: "#3C7CF7" }}
       >
         ›

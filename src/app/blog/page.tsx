@@ -38,8 +38,9 @@ export default function BlogPage() {
     error: listError,
     totalPages,
   } = usePosts(currentPage);
-  const featured = currentPage === 1 ? (posts[0] ?? null) : null;
-  const rest = currentPage === 1 ? posts.slice(1) : posts;
+  const featuredIndex = posts.findIndex((post) => post.featured === true);
+  const featured = featuredIndex !== -1 ? posts[featuredIndex] : null;
+  const rest = featuredIndex !== -1 ? posts.filter((_, i) => i !== featuredIndex) : posts;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -74,6 +75,7 @@ export default function BlogPage() {
         <React.Fragment>
           <BlogFeaturedPost
             post={featured}
+            contentReset={currentPage}
           />
 
           <div className="my-10 flex justify-center">
@@ -87,6 +89,7 @@ export default function BlogPage() {
           <BlogListRow
             key={post.id}
             post={post}
+            contentReset={currentPage}
           />
         ))}
       </div>

@@ -32,7 +32,6 @@ export default function AuthorCard({ author, date, onAuthorClick }: AuthorCardPr
         borderRadius: 32,
         padding: 16,
       }}
-      onClick={onAuthorClick}
     >
       {/* Avatar */}
       <div style={{ width: 50, height: 50, borderRadius: "50%", background: "#D9D9D9", display: "flex", alignItems: "center", justifyContent: "center" }}>

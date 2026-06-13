@@ -3,19 +3,23 @@
 import Link from "next/link";
 import type { MarkdownPost } from "@memoli/utils/markdown-client";
 import BlogMeta from "@memoli/components/blog/BlogMeta";
+import { useFadeIn } from "@memoli/hooks/useGSAP";
 
 interface BlogListRowProps {
   post: MarkdownPost;
+  contentReset?: any;
 }
 
 export default function BlogListRow({
   post,
+  contentReset,
 }: BlogListRowProps) {
   const href = post.customPath || `/blog/${post.slug}`;
-  
+  const fadeRef = useFadeIn({ reset: contentReset });
+
   return (
     <Link href={href}>
-      <div className="grid grid-cols-1 gap-6 [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center py-8 border-b border-black/[0.06] cursor-pointer hover:opacity-80 transition-opacity">
+      <div ref={fadeRef} className="grid grid-cols-1 gap-6 [@media(min-width:1024px)]:grid-cols-2 [@media(min-width:1024px)]:gap-12 items-center py-8 border-b border-black/[0.06] cursor-pointer hover:opacity-80 transition-opacity">
         {/* Text — always left on desktop */}
         <div className="flex flex-col gap-3 order-2 [@media(min-width:1024px)]:order-1">
           <h3

@@ -14,9 +14,9 @@
     "featured": false,
     "author": {
       "id": "memoli",
+      "slug": "memoli",
       "name": "Memoli",
-      "bio": "Health and wellness expert",
-      "slug": "memoli"
+      "bio": "Health and wellness expert dedicated to helping you live your best life"
     },
     "tags": [
       {
@@ -44,9 +44,9 @@
     "authors": [
       {
         "id": "memoli",
+        "slug": "memoli",
         "name": "Memoli",
-        "bio": "Health and wellness expert",
-        "slug": "memoli"
+        "bio": "Health and wellness expert dedicated to helping you live your best life"
       }
     ]
   },
@@ -65,9 +65,9 @@
     "featured": false,
     "author": {
       "id": "memoli",
+      "slug": "memoli",
       "name": "Memoli",
-      "bio": "Health and wellness expert",
-      "slug": "memoli"
+      "bio": "Health and wellness expert dedicated to helping you live your best life"
     },
     "tags": [
       {
@@ -95,9 +95,9 @@
     "authors": [
       {
         "id": "memoli",
+        "slug": "memoli",
         "name": "Memoli",
-        "bio": "Health and wellness expert",
-        "slug": "memoli"
+        "bio": "Health and wellness expert dedicated to helping you live your best life"
       }
     ]
   },
@@ -116,9 +116,9 @@
     "featured": false,
     "author": {
       "id": "memoli",
+      "slug": "memoli",
       "name": "Memoli",
-      "bio": "Health and wellness expert",
-      "slug": "memoli"
+      "bio": "Health and wellness expert dedicated to helping you live your best life"
     },
     "tags": [
       {
@@ -146,9 +146,9 @@
     "authors": [
       {
         "id": "memoli",
+        "slug": "memoli",
         "name": "Memoli",
-        "bio": "Health and wellness expert",
-        "slug": "memoli"
+        "bio": "Health and wellness expert dedicated to helping you live your best life"
       }
     ]
   },
@@ -167,9 +167,9 @@
     "featured": false,
     "author": {
       "id": "memoli",
+      "slug": "memoli",
       "name": "Memoli",
-      "bio": "Health and wellness expert",
-      "slug": "memoli"
+      "bio": "Health and wellness expert dedicated to helping you live your best life"
     },
     "tags": [
       {
@@ -197,9 +197,9 @@
     "authors": [
       {
         "id": "memoli",
+        "slug": "memoli",
         "name": "Memoli",
-        "bio": "Health and wellness expert",
-        "slug": "memoli"
+        "bio": "Health and wellness expert dedicated to helping you live your best life"
       }
     ]
   },
@@ -215,12 +215,12 @@
     "updated": "2026-04-27",
     "feature_image": "/image/blog/mindfulness-in-self-care-rituals-featured.jpg",
     "feature_image_alt": null,
-    "featured": false,
+    "featured": true,
     "author": {
       "id": "memoli",
+      "slug": "memoli",
       "name": "Memoli",
-      "bio": "Health and wellness expert",
-      "slug": "memoli"
+      "bio": "Health and wellness expert dedicated to helping you live your best life"
     },
     "tags": [
       {
@@ -248,9 +248,9 @@
     "authors": [
       {
         "id": "memoli",
+        "slug": "memoli",
         "name": "Memoli",
-        "bio": "Health and wellness expert",
-        "slug": "memoli"
+        "bio": "Health and wellness expert dedicated to helping you live your best life"
       }
     ]
   }

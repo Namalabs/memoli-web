@@ -1,201 +1,370 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex" />
-    <title>Memoli Blog CMS</title>
-    <link rel="stylesheet" href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" />
-    <script type="module">
-      // Manual initialization of Decap CMS with local Git backend
-      window.CMS_MANUAL_INIT = true;
-    </script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Manager | Memoli CMS</title>
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+    <meta name="robots" content="noindex">
+
+    <!-- Enable Netlify Identity on this page. -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <style>
+      /* Styling overrides for premium feel within CMS iframe */
+      body {
+        background-color: #f8fafc !important;
+      }
+      
+      /* Icon buttons with smooth interactions */
+      .decap-icon-btn {
+        background: transparent;
+        border: none;
+        color: #334155;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 160ms ease, color 160ms ease, transform 120ms ease;
+      }
+      
+      .decap-icon-btn:hover {
+        background-color: rgba(2,6,23,0.04);
+        color: #0f172a;
+        transform: translateY(-1px);
+      }
+      
+      .decap-icon-btn:active { 
+        transform: translateY(0); 
+      }
+      
+      .decap-icon-btn:focus-visible {
+        outline: 2px solid rgba(99,102,241,0.16);
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px rgba(99,102,241,0.04);
+      }
+      
+      .decap-icon-btn svg { 
+        display: block; 
+        transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 160ms ease; 
+      }
+      
+      .decap-icon-btn.refresh-icon:hover svg { 
+        transform: rotate(90deg); 
+      }
+      
+      .decap-icon-btn.close-icon:hover svg { 
+        transform: scale(1.05); 
+      }
+    </style>
   </head>
   <body>
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
     <script>
-      // Wait for CMS to load, then initialize with local config
-      document.addEventListener('DOMContentLoaded', async () => {
-        // Give CMS script time to load
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        if (window.CMS) {
-          try {
-            // Load config from config.yml
-            const configRes = await fetch('/admin/config.yml');
-            if (!configRes.ok) throw new Error('Failed to load config.yml');
-            const configText = await configRes.text();
-            
-            // Parse YAML (simple parser for basic YAML)
-            const config = parseYAML(configText);
-            
-            // Initialize CMS with loaded config
-            CMS.init({ config });
-            console.log('✅ Decap CMS initialized with local config');
-          } catch (err) {
-            console.error('❌ Failed to initialize CMS:', err);
-            // Fallback: Try with inline config
-            initializeCMSFallback();
+      // Configuration for Decap CMS
+      let CONFIG = { serverPort: 8081 };
+
+      async function loadConfig() {
+        try {
+          const res = await fetch('http://localhost:8081/api/config');
+          if (res.ok) {
+            CONFIG = await res.json();
+            console.log('[Config] Loaded server config:', CONFIG);
           }
+        } catch (err) {
+          console.warn('[Config] Failed to load config, using defaults:', err);
         }
-      });
-      
-      // Fallback inline CMS configuration
-      function initializeCMSFallback() {
-        if (window.CMS) {
-          CMS.init({
-            config: {
-              load_config_file: false,
-              backend: {
-                name: 'local-git',
-                branch: 'master',
-              },
-              media_folder: 'public/image/blog',
-              public_folder: '/image/blog',
-              collections: [
-                {
-                  name: 'blog',
-                  label: 'Blog Posts',
-                  folder: 'src/content/blog',
-                  create: true,
-                  slug: '{{slug}}',
-                  extension: 'md',
-                  format: 'frontmatter',
-                  fields: [
-                    { label: 'Title', name: 'title', widget: 'string', required: true },
-                    { label: 'Slug', name: 'slug', widget: 'string', required: true },
-                    { label: 'Custom URL Path', name: 'customPath', widget: 'string', required: false },
-                    { label: 'Published Date', name: 'published', widget: 'datetime', required: true },
-                    { label: 'Updated Date', name: 'updated', widget: 'datetime', required: true },
-                    { label: 'Featured', name: 'featured', widget: 'boolean', default: false },
-                    { label: 'Featured Image', name: 'featuredImage', widget: 'image', required: false },
-                    { label: 'Featured Image Alt', name: 'featuredImageAlt', widget: 'string', required: false },
-                    { label: 'Excerpt', name: 'excerpt', widget: 'text', required: true },
-                    { label: 'Content', name: 'body', widget: 'markdown', required: true },
-                  ],
-                },
-              ],
-            },
+      }
+
+      function isDeployView() {
+        try {
+          const params = new URLSearchParams(window.location.search);
+          return params.get('view') === 'deploy';
+        } catch (e) { return false; }
+      }
+
+      function addDeployTab() {
+        if (document.getElementById('decap-deploy-tab')) return true;
+        
+        // Check if user is logged in via localStorage
+        const user = localStorage.getItem('decap-cms-user');
+        if (!user) {
+          return false; // User not logged in, don't add the button
+        }
+        
+        try {
+          // Strategy 1: Look for Media button or nav-like element
+          let navContainer = null;
+          const all = Array.from(document.querySelectorAll('[role="button"], button'));
+          const mediaEl = all.find(el => el.textContent && el.textContent.trim() === 'Media');
+          
+          if (mediaEl && mediaEl.parentElement) {
+            navContainer = mediaEl.parentElement;
+          } else {
+            // Strategy 2: Look for any nav container
+            navContainer = document.querySelector('nav, [role="navigation"], [class*="nav"]') || 
+                          document.querySelector('[class*="header"], [class*="Header"]');
+          }
+          
+          if (!navContainer) {
+            // Strategy 3: Create our own container if needed
+            navContainer = document.body;
+          }
+
+          const btn = document.createElement('button');
+          btn.id = 'decap-deploy-tab';
+          btn.type = 'button';
+          btn.setAttribute('aria-pressed', 'false');
+          btn.style.cssText = 'display:inline-flex;align-items:center;gap:8px;margin-left:8px;padding:8px 12px;border-radius:8px;background:transparent;border:none;color:#334155;font-weight:600;cursor:pointer;';
+          btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block"><path d="M12 2c1.5 1.5 3 3.5 3 6 0 2.2-2 4-4 4s-4-1.8-4-4c0-2.5 1.5-4.5 3-6z"></path><path d="M21 3l-6 6"></path><path d="M7 17l-4 4 4-4z"></path></svg>
+            <span>Deployment</span>
+          `;
+
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            try { history.replaceState(null, '', '?view=deploy'); } catch (err) {}
+            showDeployModal();
           });
-          console.log('✅ CMS initialized with fallback inline config');
+
+          // Safely append button
+          if (navContainer === document.body) {
+            // If we're using body, create a wrapper
+            const wrapper = document.createElement('div');
+            wrapper.id = 'decap-deploy-wrapper';
+            wrapper.style.cssText = 'position:fixed;top:10px;right:10px;z-index:1000;';
+            wrapper.appendChild(btn);
+            document.body.appendChild(wrapper);
+          } else {
+            // Use appendChild which is always safe
+            navContainer.appendChild(btn);
+          }
+          
+          return true;
+        } catch (err) {
+          console.warn('[Deploy Tab] Failed to add tab:', err);
+          return false;
         }
       }
-      
-      // Simple YAML parser (handles basic config.yml structure)
-      function parseYAML(text) {
-        const lines = text.split('\n');
-        const config = { backend: {}, collections: [] };
-        let inBackend = false;
-        
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (!line || line.startsWith('#')) continue;
-          
-          if (line === 'backend:') {
-            inBackend = true;
-            continue;
+
+      function ensureDeployTabPresent() {
+        let tries = 0;
+        const iv = setInterval(() => {
+          const ok = addDeployTab();
+          if (ok) {
+            clearInterval(iv);
+            if (isDeployView()) showDeployModal();
           }
-          if (line === 'collections:') {
-            inBackend = false;
-            break;
+          tries++;
+          if (tries > 30) {
+            clearInterval(iv);
+            console.warn('[Deploy Tab] Failed to add tab after 30 tries');
           }
-          
-          if (inBackend) {
-            const [key, value] = line.split(':').map(s => s.trim());
-            if (key && value) config.backend[key] = value;
+        }, 300);
+      }
+
+      async function fetchDeployHistory() {
+        try {
+          const res = await fetch(`http://localhost:${CONFIG.serverPort}/api/deploy/history`, { credentials: 'include' });
+          if (!res.ok) return [];
+          return await res.json();
+        } catch (err) { console.error('fetchDeployHistory error', err); return []; }
+      }
+
+      async function fetchDeployStatus() {
+        try {
+          const res = await fetch(`http://localhost:${CONFIG.serverPort}/api/deploy/status`, { credentials: 'include' });
+          if (!res.ok) return { status: 'idle' };
+          return await res.json();
+        } catch (err) { console.error('fetchDeployStatus error', err); return { status: 'idle' }; }
+      }
+
+      async function loadBuildLogs(id) {
+        try {
+          const res = await fetch(`http://localhost:${CONFIG.serverPort}/api/deploy/log/${id}`, { credentials: 'include' });
+          if (!res.ok) return null;
+          const data = await res.json();
+          return data.log || '';
+        } catch (err) { console.error('loadBuildLogs error', err); return null; }
+      }
+
+      async function triggerDeploymentFromCMS() {
+        try {
+          const res = await fetch(`http://localhost:${CONFIG.serverPort}/api/deploy`, { method: 'POST', credentials: 'include' });
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body.error || 'Deploy failed');
           }
-        }
-        
-        return config
-        if (window.CMS) {
+          return await res.json();
+        } catch (err) { console.error('triggerDeploymentFromCMS error', err); throw err; }
+      }
+
+      function showDeployModal() {
+        if (document.getElementById('decap-deploy-modal')) return;
+        const overlay = document.createElement('div');
+        overlay.id = 'decap-deploy-modal';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(2,6,23,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;padding:24px;';
+
+        const modal = document.createElement('div');
+        modal.style.cssText = 'width:min(1000px,calc(100% - 64px));max-height:90vh;background:#fff;border-radius:12px;box-shadow:0 20px 60px rgba(2,6,23,0.35);overflow:hidden;position:relative;display:flex;flex-direction:column;';
+
+        const header = document.createElement('div');
+        header.style.cssText = 'padding:18px 20px;border-bottom:1px solid #eef2f6;display:flex;align-items:center;justify-content:space-between;gap:12px;';
+        header.innerHTML = `
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <strong style="font-size:16px;color:#0f172a">Deployment</strong>
+            <span style="color:#64748b;font-size:13px">Trigger static site updates and manage builds</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <button id="decap-deploy-close-btn" class="decap-icon-btn close-icon" type="button" aria-label="Close" title="Close" style="background:transparent;border:none;color:#64748b;padding:6px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>`;
+
+        const body = document.createElement('div');
+        body.style.cssText = 'display:flex;gap:16px;padding:18px;overflow:auto;flex:1;min-height:320px';
+
+        const left = document.createElement('div');
+        left.style.cssText = 'flex:1 1 360px;min-width:280px;';
+        left.innerHTML = `
+          <p style="margin:0 0 10px;color:#475569">Trigger and monitor the build process and Git operations.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px">
+            <div style="display:flex;gap:8px;align-items:center">
+              <button id="modalDeployNow" style="background:#37b6df;color:#fff;padding:10px 14px;border-radius:10px;border:none;font-weight:700;cursor:pointer">Deploy Now</button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span id="modalDeployStatus" style="font-weight:600;color:#334155">Loading...</span>
+              <span id="modalDeployIndicator" style="width:12px;height:12px;border-radius:999px;background:#94a3b8;display:inline-block;margin-left:6px"></span>
+            </div>
+          </div>
+          <div style="color:#64748b;font-size:13px;margin-bottom:16px">Click "Deploy Now" to start the build. Status and logs will display on the right.</div>
+          <div style="border-top:1px solid #e6edf3;padding-top:12px;margin-top:12px">
+            <p style="margin:0 0 8px;color:#0f172a;font-weight:600;font-size:13px">Quick Links</p>
+            <div style="display:flex;gap:8px;flex-direction:column">
+              ${CONFIG.previewUrl ? `<a href="${CONFIG.previewUrl}" target="_blank" style="padding:8px 12px;background:#f1f5f9;color:#37b6df;border-radius:8px;text-decoration:none;font-weight:500;font-size:13px;display:inline-flex;align-items:center;gap:6px">Preview <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>` : ''}
+              ${CONFIG.productionUrl ? `<a href="${CONFIG.productionUrl}" target="_blank" style="padding:8px 12px;background:#f1f5f9;color:#0f172a;border-radius:8px;text-decoration:none;font-weight:500;font-size:13px;display:inline-flex;align-items:center;gap:6px">Production <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>` : ''}
+            </div>
+          </div>
+        `;
+
+        const right = document.createElement('div');
+        right.style.cssText = 'flex:1 1 420px;min-width:300px;display:flex;flex-direction:column;gap:12px;';
+        right.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <strong style="font-size:14px;color:#0f172a">Build History</strong>
+            <button id="refreshDeployHistory" class="decap-icon-btn refresh-icon" aria-label="Refresh build history" title="Refresh" style="background:transparent;border:none;color:#334155;cursor:pointer;padding:6px;border-radius:6px;display:inline-flex;align-items:center;gap:6px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path>
+                <path d="M20.49 15a9 9 0 0 1-14.85 3.36L1 14"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="modalDeployHistoryList" style="flex:0 0 180px;overflow:auto;border-radius:8px;border:1px solid #e6edf3;padding:8px;background:#fbfdff"></div>
+          <div style="flex:1 1 auto">
+            <strong style="font-size:14px;color:#0f172a;display:block;margin-bottom:8px">Console Log Output</strong>
+            <pre id="modalDeployLogs" style="width:100%;height:220px;overflow:auto;background:#0f172a;color:#a3f7e3;padding:12px;border-radius:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;white-space:pre-wrap">Select an entry above or run a new deploy to view console logs.</pre>
+          </div>
+        `;
+
+        right.querySelector('#refreshDeployHistory').addEventListener('click', async () => { await renderHistory(); });
+
+        body.appendChild(left);
+        body.appendChild(right);
+
+        modal.appendChild(header);
+        modal.appendChild(body);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        const closeBtnEl = document.getElementById('decap-deploy-close-btn');
+        if (closeBtnEl) closeBtnEl.addEventListener('click', (e) => { e.preventDefault(); hideDeployModal(); });
+
+        document.getElementById('modalDeployNow').addEventListener('click', async () => {
+          const btn = document.getElementById('modalDeployNow');
+          btn.disabled = true; const old = btn.textContent; btn.textContent = 'Starting build...';
           try {
-            // Load config from config.yml
-            const configRes = await fetch('/admin/config.yml');
-            if (!configRes.ok) throw new Error('Failed to load config.yml');
-            const configText = await configRes.text();
-            
-            // Parse YAML (simple parser for basic YAML)
-            const config = parseYAML(configText);
-            
-            // Initialize CMS with loaded config
-            CMS.init({ config });
-            console.log('✅ Decap CMS initialized with local config');
-          } catch (err) {
-            console.error('❌ Failed to initialize CMS:', err);
-            // Fallback: Try with inline config
-            initializeCMSFallback();
+            const data = await triggerDeploymentFromCMS();
+            await renderHistory();
+            if (data?.deployId) {
+              const logs = await loadBuildLogs(data.deployId);
+              const dest = document.getElementById('modalDeployLogs'); if (dest) dest.textContent = logs || '';
+            }
+          } catch (e) {
+            alert('Failed to trigger deployment: ' + (e?.message || 'Unknown error'));
+          }
+          btn.disabled = false; btn.textContent = old;
+        });
+
+        overlay.addEventListener('click', (ev) => { if (ev.target === overlay) hideDeployModal(); });
+
+        function onKey(e) { if (e.key === 'Escape') hideDeployModal(); }
+        document.addEventListener('keydown', onKey);
+        overlay._onKey = onKey;
+
+        overlay._deployInterval = setInterval(async () => { await updateStatus(); await renderHistory(); }, 5000);
+
+        async function updateStatus() {
+          const s = await fetchDeployStatus();
+          const statusEl = document.getElementById('modalDeployStatus'); if (statusEl) statusEl.textContent = s.status || 'idle';
+          const ind = document.getElementById('modalDeployIndicator'); if (ind) ind.style.background = (s.status === 'building') ? '#f59e0b' : ((s.status === 'success') ? '#10b981' : ((s.status === 'failed') ? '#ef4444' : '#94a3b8'));
+        }
+
+        async function renderHistory() {
+          const data = await fetchDeployHistory();
+          const listEl = document.getElementById('modalDeployHistoryList');
+          if (!listEl) return;
+          listEl.innerHTML = '';
+          for (const item of data) {
+            const el = document.createElement('div');
+            el.setAttribute('data-id', item.id);
+            el.style.cssText = 'padding:8px;border-bottom:1px solid #e6edf3;cursor:pointer;display:flex;justify-content:space-between;align-items:center';
+            el.innerHTML = `<div><div style="font-weight:700;color:#0f172a">#${item.id} · ${item.status}</div><div style="font-size:12px;color:#64748b">${item.trigger_time}${item.completion_time ? ' · ' + item.completion_time : ''}</div></div>`;
+            el.addEventListener('click', async () => { const logs = await loadBuildLogs(item.id); const dest = document.getElementById('modalDeployLogs'); if (dest) dest.textContent = logs || ''; });
+            listEl.appendChild(el);
           }
         }
+      }
+
+      function hideDeployModal() {
+        const overlay = document.getElementById('decap-deploy-modal');
+        if (!overlay) return;
+        clearInterval(overlay._deployInterval);
+        if (overlay._onKey) document.removeEventListener('keydown', overlay._onKey);
+        overlay.remove();
+        try { history.replaceState(null, '', window.location.pathname); } catch (err) {}
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        await loadConfig();
+        
+        // Listen for localStorage changes (login/logout)
+        window.addEventListener('storage', (e) => {
+          if (e.key === 'decap-cms-user') {
+            if (e.newValue) {
+              console.log('[Auth] User logged in');
+              ensureDeployTabPresent();
+            } else {
+              console.log('[Auth] User logged out');
+              const deployBtn = document.getElementById('decap-deploy-tab');
+              if (deployBtn) {
+                deployBtn.closest('[id*="deploy-wrapper"]')?.remove() || deployBtn.remove();
+              }
+            }
+          }
+        });
+        
+        ensureDeployTabPresent();
       });
-      
-      // Fallback inline CMS configuration
-      function initializeCMSFallback() {
-        if (window.CMS) {
-          CMS.init({
-            config: {
-              load_config_file: false,
-              backend: {
-                name: 'local-git',
-                branch: 'master',
-              },
-              media_folder: 'public/image/blog',
-              public_folder: '/image/blog',
-              collections: [
-                {
-                  name: 'blog',
-                  label: 'Blog Posts',
-                  folder: 'src/content/blog',
-                  create: true,
-                  slug: '{{slug}}',
-                  extension: 'md',
-                  format: 'frontmatter',
-                  fields: [
-                    { label: 'Title', name: 'title', widget: 'string', required: true },
-                    { label: 'Slug', name: 'slug', widget: 'string', required: true },
-                    { label: 'Custom URL Path', name: 'customPath', widget: 'string', required: false },
-                    { label: 'Published Date', name: 'published', widget: 'datetime', required: true },
-                    { label: 'Updated Date', name: 'updated', widget: 'datetime', required: true },
-                    { label: 'Featured', name: 'featured', widget: 'boolean', default: false },
-                    { label: 'Featured Image', name: 'featuredImage', widget: 'image', required: false },
-                    { label: 'Featured Image Alt', name: 'featuredImageAlt', widget: 'string', required: false },
-                    { label: 'Excerpt', name: 'excerpt', widget: 'text', required: true },
-                    { label: 'Content', name: 'body', widget: 'markdown', required: true },
-                  ],
-                },
-              ],
-            },
-          });
-          console.log('✅ CMS initialized with fallback inline config');
-        }
-      }
-      
-      // Simple YAML parser (handles basic config.yml structure)
-      function parseYAML(text) {
-        const lines = text.split('\n');
-        const config = { backend: {}, collections: [] };
-        let inBackend = false;
-        
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i].trim();
-          if (!line || line.startsWith('#')) continue;
-          
-          if (line === 'backend:') {
-            inBackend = true;
-            continue;
-          }
-          if (line === 'collections:') {
-            inBackend = false;
-            break;
-          }
-          
-          if (inBackend) {
-            const [key, value] = line.split(':').map(s => s.trim());
-            if (key && value) config.backend[key] = value;
-          }
-        }
-        
-        return config;
-      }
     </script>
   </body>
 </html>
