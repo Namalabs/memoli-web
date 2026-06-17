@@ -7,7 +7,7 @@ updated: "2026-04-27"
 excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a arcu mi. Cras viverra dui vel augue ornare hendrerit. Curabitur malesuada arcu et rutrum faucibus..."
 tags: ["self-care", "wellness"]
 featured: false
-featuredImage: "/image/blog/its-time-for-decluttering-featured.jpg"
+featuredImage: "/content/upload/its-time-for-decluttering-featured.jpg"
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a arcu mi. Cras viverra dui vel augue ornare hendrerit. Curabitur malesuada arcu et rutrum faucibus. Pellentesque nec varius erat. Morbi vestibulum odio vel odio commodo, nec scelerisque ex scelerisque. Maecenas porttitor lobortis tempus. Nulla elementum odio sit amet augue sollicitudin, et porttitor dolor euismod. Pellentesque vehicula magna non justo tempus mattis. Maecenas justo dui, pellentesque quis nulla ac, sagittis posuere nisl. Maecenas eget lorem turpis.
