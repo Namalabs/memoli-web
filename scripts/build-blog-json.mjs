@@ -10,7 +10,7 @@ import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
 
 const md = new MarkdownIt();
-const BLOG_DIR = path.join(process.cwd(), 'src', 'content', 'blog');
+const BLOG_DIR = path.join(process.cwd(), 'public', 'content', 'blog');
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'blog-data');
 
 function calculateReadingTime(html) {

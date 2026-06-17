@@ -197,6 +197,16 @@ app.get("/config.yml", (req, res) => {
   }
 });
 
+// Also serve config from /admin/config.yml for Local Decap CMS
+// app.get("/admin/config.yml", (req, res) => {
+//   const configPath = path.join(__dirname, "public/admin/config.yml");
+//   if (fs.existsSync(configPath)) {
+//     res.type("text/yaml").sendFile(configPath);
+//   } else {
+//     res.status(404).json({ error: "Configuration not found" });
+//   }
+// });
+
 // Configuration endpoint
 app.get('/api/config', (req, res) => {
   res.json({
