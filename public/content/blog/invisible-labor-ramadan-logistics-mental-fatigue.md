@@ -2,8 +2,8 @@
 title: 'The "Invisible Labor" of Ramadan: Logistics and Mental Fatigue'
 slug: invisible-labor-ramadan-logistics-mental-fatigue
 author: memoli
-published: 2026-03-04
-updated: 2026-03-04
+published: 2026-03-05
+updated: 2026-03-05
 excerpt: The "invisible labor" of Ramadan often drains your mental battery due
   to the complex coordination of Suhoor, Iftar, and holiday preparation. This
   guide offers practical ways to automate your kitchen inventory so you can
