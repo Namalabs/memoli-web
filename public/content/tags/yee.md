@@ -1,4 +1,0 @@
----
-name: yooo
-slug: yee
----
